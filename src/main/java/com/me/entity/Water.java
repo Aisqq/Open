@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Water {
     private Integer waterId;
-    private Integer deviceId;
+    private String  deviceId;
     private BigDecimal waterUsage;
     private LocalDateTime recordTime;
 }

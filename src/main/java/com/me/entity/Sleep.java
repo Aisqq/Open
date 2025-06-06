@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Sleep {
     private Integer sleepId;
-    private Integer deviceId;
+    private String  deviceId;
     private Integer turnOverCount;
     private LocalDateTime recodeDate;
 }

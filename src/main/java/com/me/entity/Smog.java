@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Smog {
     private Integer smogId;
-    private Integer deviceId;
+    private String  deviceId;
     private BigDecimal smogLever;
     private Boolean alarm;
     private LocalDateTime recordTime;

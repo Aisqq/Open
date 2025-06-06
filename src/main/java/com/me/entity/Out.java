@@ -11,6 +11,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Out {
     private Integer homeId;
-    private Integer deviceId;
+    private String  deviceId;
     private LocalDateTime outTime;
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Temp {
     private Integer tempId;
-    private Integer deviceId;
+    private String  deviceId;
     private BigDecimal temperature;
     private LocalDateTime recordTime;
 }

@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Device {
-    private Integer deviceId;
+    private String  deviceId;
     private Integer elderId;
     private String deviceName;
-    private String deviceTagId;
 }
