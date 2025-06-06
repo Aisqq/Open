@@ -5,7 +5,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://10.168.89.231:26000/eldersdb?useSSL=false&serverTimezone=Asia/Shanghai
     username: admin
-    password: Zjhw@123451
+    password: Zjhw@12345
   data:
     redis:
       host: 10.168.82.114
