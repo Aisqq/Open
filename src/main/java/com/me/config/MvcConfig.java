@@ -18,6 +18,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new RefreshTokenInterceptor(jwtTokenUtil,userDao)).addPathPatterns("/**").order(0);
+
         registry.addInterceptor(new LoginInterceptor()).excludePathPatterns("/api/user/pb/**","/api/captcha/**","/test/**").order(1);
     }
 }

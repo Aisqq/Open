@@ -1,5 +1,6 @@
 package com.me.controller;
 
+import com.me.dto.RegisterDTO;
 import com.me.entity.User;
 import com.me.service.UserService;
 import com.me.utils.Message;
@@ -7,9 +8,9 @@ import com.me.utils.RedisKey;
 import com.me.utils.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,6 @@ import java.util.Map;
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserService userService;
     private final StringRedisTemplate stringRedisTemplate;
     /**
@@ -48,6 +48,9 @@ public class UserController {
         userLogin.setPassword(map.get("password"));
         return  userService.login(userLogin,response);
     }
-
+    @PostMapping("/pb/register")
+    public Result<String> register(@Valid @RequestBody RegisterDTO dto){
+        return userService.register(dto);
+    }
 
 }
