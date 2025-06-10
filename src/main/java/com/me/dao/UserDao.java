@@ -22,7 +22,7 @@ public interface UserDao {
 
     @Update({
             "<script>",
-            "UPDATE user",
+            "UPDATE \"tb_user\"",
             "<set>",
             "<if test='username != null'>username = #{username},</if>",
             "<if test='password != null'>password = #{password},</if>",
