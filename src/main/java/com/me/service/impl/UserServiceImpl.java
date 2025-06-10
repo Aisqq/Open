@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl  implements UserService {
     private final ElderDao elderDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final StringRedisTemplate stringRedisTemplate;
     private final UserDao userDao;
     private final JwtTokenUtil jwtTokenUtil;
     @Override
@@ -55,4 +58,23 @@ public class UserServiceImpl  implements UserService {
         return Result.success(Message.SUCCESS);
     }
 
+    @Override
+    public Result<String> setPassword(String password) {
+        User user = UserHolder.getUser();
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+        userDao.update(user);
+        return Result.success(Message.SUCCESS);
+    }
+
+    @Override
+    public Result<String> resetPassword(String phone, String code, HttpServletResponse response) {
+        if(!Objects.equals(stringRedisTemplate.opsForValue().get(RedisKey.FORGET_CAPTCHA + phone), code)){
+            return Result.error(Message.VALIDATION_ERROR);
+        }
+        User user = userDao.findUserByPhone(phone);
+        String jwtToken  = jwtTokenUtil.generateToken(user);
+        Cookie cookie = CookieUtil.createJwtCookie(jwtToken);
+        response.addCookie(cookie);
+        return Result.success(Message.SUCCESS);
+    }
 }

@@ -1,6 +1,7 @@
 package com.me.controller;
 
 import com.me.dto.RegisterDTO;
+import com.me.dto.ResetPasswordDTO;
 import com.me.entity.User;
 import com.me.service.UserService;
 import com.me.utils.Message;
@@ -53,4 +54,12 @@ public class UserController {
         return userService.register(dto);
     }
 
+    @PostMapping("/setPassword")
+    public Result<String> setPassword(@RequestBody Map<String,String> map){
+        return userService.setPassword(map.get("password"));
+    }
+    @PostMapping("/pb/resetPassword")
+    public Result<String> resetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordDTO,HttpServletResponse response){
+        return userService.resetPassword(resetPasswordDTO.getPhone(),resetPasswordDTO.getCaptcha(),response);
+    }
 }

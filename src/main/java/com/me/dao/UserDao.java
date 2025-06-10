@@ -17,4 +17,6 @@ public interface UserDao {
             "#{username}, #{password}, #{phone}, #{elderId})"
     )
     void save(User user);
+
+    void update(User user);
 }

@@ -9,4 +9,8 @@ public interface UserService {
     Result<String> login(User userLogin, HttpServletResponse response);
 
     Result<String> register(RegisterDTO dto);
+
+    Result<String> setPassword(String password);
+
+    Result<String> resetPassword(String phone,String code,HttpServletResponse response);
 }

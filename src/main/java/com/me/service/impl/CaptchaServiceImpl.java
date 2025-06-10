@@ -3,7 +3,9 @@ package com.me.service.impl;
 import com.me.dao.UserDao;
 import com.me.service.CaptchaService;
 import com.me.utils.CaptchaUtil;
+import com.me.utils.Message;
 import com.me.utils.RedisKey;
+import com.me.utils.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +42,15 @@ public class CaptchaServiceImpl implements CaptchaService {
         BufferedImage image = CaptchaUtil.generateCaptchaImage(captchaText, 120, 40);
         response.setContentType("image/png");
         ImageIO.write(image, "png", response.getOutputStream());
+    }
+
+    @Override
+    public Result<String> sendCaptcha(String phone) {
+       String code = CaptchaUtil.generateRandomCode(6);
+        if(Boolean.FALSE.equals(stringRedisTemplate.opsForValue().setIfAbsent(RedisKey.FORGET_CAPTCHA + phone, code, 60, TimeUnit.SECONDS))){
+            return Result.error(Message.SEND_ERROR);
+        }
+        log.info("验证码："+code);
+        return Result.success(Message.SEND_SUCCESS);
     }
 }
