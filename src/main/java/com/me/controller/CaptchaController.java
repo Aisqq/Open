@@ -1,5 +1,6 @@
 package com.me.controller;
 
+import com.me.dao.UserDao;
 import com.me.service.CaptchaService;
 import com.me.utils.Message;
 import com.me.utils.Result;
@@ -19,7 +20,7 @@ import java.util.Map;
 public class CaptchaController {
 
     private final CaptchaService captchaService;
-
+    private final UserDao userDao;
     /**
      * 发送登录图片验证码
      * @param request
@@ -34,8 +35,8 @@ public class CaptchaController {
     @PostMapping("/sendCode")
     public Result<String> sendCaptcha(@RequestBody Map<String,String> map){
         log.info(map.get("phone"));
-        if(map.get("phone")==null||map.get("phone").length()!=11){
-            return Result.error(Message.ERROR);
+        if(userDao.findUserByPhone(map.get("phone"))==null){
+            return Result.error(Message.NOT_EXIST);
         }
         return captchaService.sendCaptcha(map.get("phone"));
     }

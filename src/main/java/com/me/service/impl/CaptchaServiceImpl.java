@@ -24,6 +24,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     private final StringRedisTemplate stringRedisTemplate;
     private final UserDao userDao;
 
+
     @Override
     public void generateCaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 生成随机验证码
