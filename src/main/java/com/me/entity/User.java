@@ -18,4 +18,5 @@ public class User implements Serializable {
     private String password;
     private String phone;
     private Integer elderId;
+    private Integer role;
 }
