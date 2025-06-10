@@ -6,11 +6,13 @@ import com.me.utils.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/captcha")
@@ -29,9 +31,10 @@ public class CaptchaController {
         captchaService.generateCaptcha(request,response);
     }
 
-    @PostMapping("/sendCaptcha")
+    @PostMapping("/sendCode")
     public Result<String> sendCaptcha(@RequestBody Map<String,String> map){
-        if(map.get("phone")==null||map.get("phone").length()!=6){
+        log.info(map.get("phone"));
+        if(map.get("phone")==null||map.get("phone").length()!=11){
             return Result.error(Message.ERROR);
         }
         return captchaService.sendCaptcha(map.get("phone"));

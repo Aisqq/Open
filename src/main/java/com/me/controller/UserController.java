@@ -58,8 +58,8 @@ public class UserController {
     public Result<String> setPassword(@RequestBody Map<String,String> map){
         return userService.setPassword(map.get("password"));
     }
-    @PostMapping("/pb/resetPassword")
+    @PostMapping("/pb/verifyCode")
     public Result<String> resetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordDTO,HttpServletResponse response){
-        return userService.resetPassword(resetPasswordDTO.getPhone(),resetPasswordDTO.getCaptcha(),response);
+        return userService.resetPassword(resetPasswordDTO.getPhone(),resetPasswordDTO.getCode(),response);
     }
 }
