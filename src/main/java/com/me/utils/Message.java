@@ -10,6 +10,7 @@ public class Message {
     public static final String SEND_SUCCESS = "发送成功";
     public static final String SEND_ERROR = "发送失败";
     public static final String USER_EXIST = "用户名已被注册";
-    public static final String EXIST = "用户已注册";
+    public static final String PHONE_EXIST= "手机号已注册";
     public static final String NOT_EXIST = "用户未注册";
+    public static final String Elder_NOT_EXIST = "系统未找到该老人，请检查秘钥";
 }

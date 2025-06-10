@@ -48,7 +48,12 @@ public class UserServiceImpl  implements UserService {
     @Override
     public Result<String> register(RegisterDTO dto) {
         Elder elder = elderDao.findByKey(dto.getKey());
-        if(elder==null||userDao.findUserByUsername(dto.getUsername())!=null||userDao.findUserByPhone(dto.getPhone())!=null)return Result.error(Message.ERROR);
+        if(elder==null)
+            return Result.error(Message.Elder_NOT_EXIST);
+        if(userDao.findUserByUsername(dto.getUsername())!=null)
+            return Result.error(Message.USER_EXIST);
+        if(userDao.findUserByPhone(dto.getPhone())!=null)
+            return Result.error(Message.PHONE_EXIST);
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setElderId(elder.getElderId());
