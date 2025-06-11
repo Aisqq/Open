@@ -13,4 +13,6 @@ public class Message {
     public static final String PHONE_EXIST= "手机号已注册";
     public static final String NOT_EXIST = "用户未注册";
     public static final String Elder_NOT_EXIST = "系统未找到该老人，请检查秘钥";
+    public static final String UPLOAD_SUCCESS = "上传成功";
+    public static final String UPLOAD_ERROR = "上传失败";
 }

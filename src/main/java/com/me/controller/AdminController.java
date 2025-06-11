@@ -3,6 +3,7 @@ package com.me.controller;
 import com.me.dto.ElderDTO;
 import com.me.dto.QueryPage;
 import com.me.service.AdminServer;
+import com.me.service.DeviceServer;
 import com.me.utils.PageResult;
 import com.me.utils.Result;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +14,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
+    private final DeviceServer deviceServer;
     private final AdminServer adminServer;
     @PostMapping("/addElder")
     public Result<String> addElder(@Validated @RequestBody ElderDTO elderDTO){
@@ -43,5 +47,12 @@ public class AdminController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
-
+    @PostMapping("/upload")
+    public Result<String> uploadDevice(@RequestParam ("file") MultipartFile file){
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null || !originalFilename.endsWith(".xlsx")) {
+            return Result.error("文件格式错误，仅支持.xlsx格式");
+        }
+        return deviceServer.uploadDevice(file);
+    }
 }

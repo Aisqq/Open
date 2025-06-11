@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.me.dao.DeviceDao">
+    <insert id="batchInsertDevice" parameterType="java.util.List">
+        -- 创建临时表存储待插入数据
+        CREATE TEMP TABLE IF NOT EXISTS temp_devices (
+        device_id varchar(20),
+        elder_id int4,
+        device_name varchar(50)
+        );
+
+        -- 清空临时表
+        TRUNCATE TABLE temp_devices;
+
+        -- 批量插入数据到临时表
+        INSERT INTO temp_devices (device_id, elder_id, device_name)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.deviceId}, #{item.elderId}, #{item.deviceName})
+        </foreach>;
+        INSERT INTO tb_device (device_id, elder_id, device_name)
+        SELECT t.device_id, t.elder_id, t.device_name
+        FROM temp_devices t
+        WHERE NOT EXISTS (
+        SELECT 1 FROM tb_device d
+        WHERE d.device_id = t.device_id
+        );
+        DROP TABLE IF EXISTS temp_devices;
+    </insert>
+</mapper>
