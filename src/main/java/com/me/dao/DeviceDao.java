@@ -7,4 +7,6 @@ import java.util.List;
 public interface DeviceDao {
 
     void batchInsertDevice(List<Device> deviceList);
+
+    List<Device> findByElderId(Integer id);
 }

@@ -83,6 +83,13 @@ public class DeviceServerImpl implements DeviceServer {
             }
         }
     }
+
+    @Override
+    public Result<List<Device>> findDevice(Integer id) {
+        return Result.success(Message.SUCCESS,deviceDao.findByElderId(id));
+    }
+
+
     /**
      * 获取单元格的整数值
      */

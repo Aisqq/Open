@@ -2,6 +2,7 @@ package com.me.controller;
 
 import com.me.dto.ElderDTO;
 import com.me.dto.QueryPage;
+import com.me.entity.Device;
 import com.me.service.AdminServer;
 import com.me.service.DeviceServer;
 import com.me.utils.PageResult;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -54,5 +57,9 @@ public class AdminController {
             return Result.error("文件格式错误，仅支持.xlsx格式");
         }
         return deviceServer.uploadDevice(file);
+    }
+    @GetMapping("/findDevice/{id}")
+    public Result<List<Device>> findDevice(@PathVariable Integer id){
+        return deviceServer.findDevice(id);
     }
 }

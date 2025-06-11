@@ -27,4 +27,18 @@
         );
         DROP TABLE IF EXISTS temp_devices;
     </insert>
+
+    <!-- 定义结果映射 -->
+    <resultMap id="BaseResultMap" type="com.me.entity.Device">
+        <id column="device_id" property="deviceId" jdbcType="VARCHAR"/>
+        <result column="elder_id" property="elderId" jdbcType="INTEGER"/>
+        <result column="device_name" property="deviceName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 根据elderId查询设备列表 -->
+    <select id="findByElderId" resultMap="BaseResultMap">
+        SELECT device_id, elder_id, device_name
+        FROM tb_device
+        WHERE elder_id = #{id}
+    </select>
 </mapper>
