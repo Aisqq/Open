@@ -1,16 +1,21 @@
 package com.me.service.impl;
 
-
+import cn.hutool.core.util.IdUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.me.dao.ElderDao;
 import com.me.dto.ElderDTO;
+import com.me.dto.QueryPage;
 import com.me.entity.Elder;
 import com.me.service.AdminServer;
 import com.me.utils.Message;
+import com.me.utils.PageResult;
 import com.me.utils.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @RequiredArgsConstructor
 @Slf4j
@@ -20,17 +25,21 @@ public class AdminServerImpl implements AdminServer {
     private final ElderDao elderDao;
     @Override
     public Result<String> addElder(ElderDTO elderDTO) {
-        if(elderDao.findByKey(elderDTO.getSecret_key())!=null){
-            return Result.error("秘钥已被使用");
-        }
-
         Elder elder = new Elder();
         elder.setAge(elderDTO.getAge());
-        elder.setSecret_key(elderDTO.getSecret_key());
+        elder.setSecret_key(IdUtil.fastSimpleUUID());
         elder.setName(elderDTO.getName());
         elder.setGender(elderDTO.getGender());
         log.info(elder.toString());
         elderDao.addElder(elder);
         return Result.success(Message.SUCCESS);
     }
+
+    @Override
+    public PageResult findAllElder(QueryPage queryPage) {
+        PageHelper.startPage(queryPage.getStart(),queryPage.getSize());
+        Page<Elder> page = elderDao.findByCondition(queryPage.getQuery());
+        return new PageResult(page.getTotal(),page.getResult());
+    }
+
 }

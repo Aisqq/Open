@@ -1,5 +1,6 @@
 package com.me.dao;
 
+import com.github.pagehelper.Page;
 import com.me.entity.Elder;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
@@ -13,4 +14,6 @@ public interface ElderDao {
     @Insert("INSERT INTO tb_elder (name, gender, age, secret_key) VALUES (#{name}, #{gender}, #{age}, #{secret_key})")
     @Options(useGeneratedKeys = true, keyProperty = "elderId")
     void addElder(Elder elder);
+
+    Page<Elder> findByCondition(String query);
 }

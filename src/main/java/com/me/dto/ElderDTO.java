@@ -10,6 +10,4 @@ public class ElderDTO {
     private String name;
     private String gender;
     private Integer age;
-    @NotBlank(message = "秘钥不能为空")
-    private String secret_key;
 }
