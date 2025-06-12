@@ -16,4 +16,6 @@ public interface ElderDao {
     void addElder(Elder elder);
 
     Page<Elder> findByCondition(String query);
+
+    int update(Elder elder);
 }

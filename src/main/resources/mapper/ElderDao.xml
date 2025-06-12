@@ -9,5 +9,19 @@
             </if>
         </where>
     </select>
-
+    <update id="update" parameterType="com.me.entity.Elder">
+        UPDATE tb_elder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+        </trim>
+        WHERE elder_id = #{elderId}
+    </update>
 </mapper>

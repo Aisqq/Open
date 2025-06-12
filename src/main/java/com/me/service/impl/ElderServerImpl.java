@@ -7,7 +7,7 @@ import com.me.dao.ElderDao;
 import com.me.dto.ElderDTO;
 import com.me.dto.QueryPage;
 import com.me.entity.Elder;
-import com.me.service.AdminServer;
+import com.me.service.ElderServer;
 import com.me.utils.Message;
 import com.me.utils.PageResult;
 import com.me.utils.Result;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @Transactional
-public class AdminServerImpl implements AdminServer {
+public class ElderServerImpl implements ElderServer {
     private final ElderDao elderDao;
     @Override
     public Result<String> addElder(ElderDTO elderDTO) {
@@ -40,6 +40,14 @@ public class AdminServerImpl implements AdminServer {
         PageHelper.startPage(queryPage.getStart(),queryPage.getSize());
         Page<Elder> page = elderDao.findByCondition(queryPage.getQuery());
         return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    @Override
+    public Result<String> update(Elder elder) {
+        if(elderDao.update(elder)>0){
+            return Result.success(Message.UPDATE_SUCCESS);
+        }
+        return Result.error(Message.UPDATE_ERROR);
     }
 
 }

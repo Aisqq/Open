@@ -1,9 +1,11 @@
 package com.me.controller;
 
 import com.me.dto.ElderDTO;
+import com.me.dto.ElderUpDTO;
 import com.me.dto.QueryPage;
 import com.me.entity.Device;
-import com.me.service.AdminServer;
+import com.me.entity.Elder;
+import com.me.service.ElderServer;
 import com.me.service.DeviceServer;
 import com.me.utils.PageResult;
 import com.me.utils.Result;
@@ -25,14 +27,14 @@ import java.util.List;
 @RequestMapping("/api/admin")
 public class AdminController {
     private final DeviceServer deviceServer;
-    private final AdminServer adminServer;
+    private final ElderServer elderServer;
     @PostMapping("/addElder")
     public Result<String> addElder(@Validated @RequestBody ElderDTO elderDTO){
-        return adminServer.addElder(elderDTO);
+        return elderServer.addElder(elderDTO);
     }
     @GetMapping("/findAllElder")
     public PageResult findAllElder(@RequestBody QueryPage queryPage){
-        return adminServer.findAllElder(queryPage);
+        return elderServer.findAllElder(queryPage);
     }
     @GetMapping("/download")
     public ResponseEntity<Resource> downloadTemplate() {
@@ -61,5 +63,14 @@ public class AdminController {
     @GetMapping("/findDevice/{id}")
     public Result<List<Device>> findDevice(@PathVariable Integer id){
         return deviceServer.findDevice(id);
+    }
+
+    @PutMapping("/updateElder")
+    public Result<String> updateElder(@Validated @RequestBody ElderUpDTO elderDTO){
+        Elder elder = new Elder();
+        elder.setElderId(elderDTO.getElderId());
+        elder.setName(elderDTO.getName());
+        elder.setGender(elderDTO.getGender());
+        return elderServer.update(elder);
     }
 }
