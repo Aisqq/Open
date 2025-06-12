@@ -37,9 +37,17 @@ public class ElderServerImpl implements ElderServer {
 
     @Override
     public PageResult findAllElder(QueryPage queryPage) {
-        PageHelper.startPage(queryPage.getStart(),queryPage.getSize());
+        // 计算页码（PageHelper的页码从1开始）
+        int pageNum = (queryPage.getStart() / queryPage.getSize()) + 1;
+
+        // 设置分页参数
+        PageHelper.startPage(pageNum, queryPage.getSize());
+
+        // 执行查询
         Page<Elder> page = elderDao.findByCondition(queryPage.getQuery());
-        return new PageResult(page.getTotal(),page.getResult());
+
+        // 返回分页结果
+        return new PageResult(page.getTotal(), page.getResult());
     }
 
     @Override

@@ -32,7 +32,7 @@ public class AdminController {
     public Result<String> addElder(@Validated @RequestBody ElderDTO elderDTO){
         return elderServer.addElder(elderDTO);
     }
-    @GetMapping("/findAllElder")
+    @PostMapping("/findAllElder")
     public PageResult findAllElder(@RequestBody QueryPage queryPage){
         return elderServer.findAllElder(queryPage);
     }
@@ -71,6 +71,7 @@ public class AdminController {
         elder.setElderId(elderDTO.getElderId());
         elder.setName(elderDTO.getName());
         elder.setGender(elderDTO.getGender());
+        elder.setAge(elderDTO.getAge());
         return elderServer.update(elder);
     }
 }

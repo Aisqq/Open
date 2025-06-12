@@ -8,6 +8,7 @@
                 name like concat('%', #{query}, '%')
             </if>
         </where>
+        order by elder_id asc
     </select>
     <update id="update" parameterType="com.me.entity.Elder">
         UPDATE tb_elder

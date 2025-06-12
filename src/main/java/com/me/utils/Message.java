@@ -15,7 +15,6 @@ public class Message {
     public static final String Elder_NOT_EXIST = "系统未找到该老人，请检查秘钥";
     public static final String UPLOAD_SUCCESS = "上传成功";
     public static final String UPLOAD_ERROR = "上传失败";
-
     public static final String UPDATE_SUCCESS = "更新信息成功";
     public static final String UPDATE_ERROR = "更新信息失败";
 }

@@ -10,5 +10,6 @@ public class ElderUpDTO {
     @NotNull(message = "姓名不能为空")
     private String name;
     private String gender;
+    @NotNull(message = "性别不能为空")
     private Integer age;
 }
