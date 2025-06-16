@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 public class CaptchaServiceImpl implements CaptchaService {
     private static final long CAPTCHA_EXPIRE_TIME = 3;
     private final StringRedisTemplate stringRedisTemplate;
-    private final UserDao userDao;
 
 
     @Override

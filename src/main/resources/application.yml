@@ -1,6 +1,12 @@
 server:
   port: 8080
 spring:
+  ai:
+    dashscope:
+      api-key: ${LLM_KEY}
+      chat:
+        options:
+          model: qwen-max
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://10.168.89.239:5432/postgres?useSSL=false&serverTimezone=Asia/Shanghai
@@ -29,3 +35,9 @@ mybatis:
 jwt:
   secret: qqp74374032742374hfdsfksdjfksdfsd78dsadhasnasdnasdnjkasndksankdlasdnmaskldnmaskdnkasdnmaskldl
   expiration: 86400
+
+amqp:
+  accessKey: 4qN4LITx
+  password: tQsNJUURoSmOJKNkY7hCYxTLKsVbyvSJ
+  baseUrl: 1b177f15b8.st1.iotda-app.cn-north-4.myhuaweicloud.com
+  queueName: DefaultQueue

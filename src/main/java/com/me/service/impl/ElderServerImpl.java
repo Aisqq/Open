@@ -11,6 +11,7 @@ import com.me.service.ElderServer;
 import com.me.utils.Message;
 import com.me.utils.PageResult;
 import com.me.utils.Result;
+import com.me.vo.ElderVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class ElderServerImpl implements ElderServer {
     public Result<String> addElder(ElderDTO elderDTO) {
         Elder elder = new Elder();
         elder.setAge(elderDTO.getAge());
-        elder.setSecret_key(IdUtil.fastSimpleUUID());
+        elder.setSecretKey(IdUtil.fastSimpleUUID());
         elder.setName(elderDTO.getName());
         elder.setGender(elderDTO.getGender());
         log.info(elder.toString());
@@ -37,16 +38,10 @@ public class ElderServerImpl implements ElderServer {
 
     @Override
     public PageResult findAllElder(QueryPage queryPage) {
-        // 计算页码（PageHelper的页码从1开始）
-        int pageNum = (queryPage.getStart() / queryPage.getSize()) + 1;
 
-        // 设置分页参数
-        PageHelper.startPage(pageNum, queryPage.getSize());
+        PageHelper.startPage(queryPage.getStart(), queryPage.getSize());
 
-        // 执行查询
-        Page<Elder> page = elderDao.findByCondition(queryPage.getQuery());
-
-        // 返回分页结果
+        Page<ElderVo> page = elderDao.findByCondition(queryPage.getQuery());
         return new PageResult(page.getTotal(), page.getResult());
     }
 

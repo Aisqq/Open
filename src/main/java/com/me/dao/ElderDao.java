@@ -2,6 +2,7 @@ package com.me.dao;
 
 import com.github.pagehelper.Page;
 import com.me.entity.Elder;
+import com.me.vo.ElderVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
@@ -15,7 +16,7 @@ public interface ElderDao {
     @Options(useGeneratedKeys = true, keyProperty = "elderId")
     void addElder(Elder elder);
 
-    Page<Elder> findByCondition(String query);
+    Page<ElderVo> findByCondition(String query);
 
     int update(Elder elder);
 }
