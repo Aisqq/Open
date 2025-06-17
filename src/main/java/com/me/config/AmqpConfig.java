@@ -6,7 +6,6 @@ import org.apache.qpid.jms.transports.TransportSupport;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;

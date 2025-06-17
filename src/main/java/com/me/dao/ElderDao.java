@@ -5,7 +5,10 @@ import com.me.entity.Elder;
 import com.me.vo.ElderVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public interface ElderDao {
 
@@ -19,4 +22,15 @@ public interface ElderDao {
     Page<ElderVo> findByCondition(String query);
 
     int update(Elder elder);
+
+
+    BigDecimal findWaterUsage(@Param("elderId") Integer elderId, @Param("date") LocalDateTime date);
+
+    BigDecimal getLatestTemperatureValue(@Param("elderId") Integer elderId, @Param("date") LocalDateTime date);
+
+    Integer countHomeTimes(@Param("elderId") Integer elderId, @Param("date") LocalDateTime date);
+
+    Integer countOutTimes(@Param("elderId") Integer elderId, @Param("date") LocalDateTime date);
+
+    BigDecimal getAverageSmogLevel(@Param("elderId") Integer elderId, @Param("date") LocalDateTime date);
 }

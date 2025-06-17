@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.context.WebApplicationContext;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -77,10 +76,13 @@ public class ChatClientConfig {
         });
 
         return builder
-                .defaultSystem("""
-                你是一个智能助手。
-                当前用户: {user.username}
-            """.replace("{user.username}", user.getUsername()))
+                .defaultSystem(String.format("""
+        你是一个智能助手,当需要获取老人情况时需要调用对应的方法回答
+        当前用户: %s,对应老人Id：%d
+    """,
+                        user.getUsername() != null ? user.getUsername() : "未知用户",
+                        user.getElderId() != null ? user.getElderId() : 0)
+                )
                 .defaultAdvisors(
                         new PromptChatMemoryAdvisor(userMemory),
                         new SimpleLoggerAdvisor()

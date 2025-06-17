@@ -25,4 +25,68 @@
         </trim>
         WHERE elder_id = #{elderId}
     </update>
+
+    <select id="findWaterUsage" parameterType="map" resultType="java.math.BigDecimal">
+        SELECT
+            COALESCE(SUM(w.water_usage), 0) AS total_water_usage
+        FROM
+            tb_water w
+                JOIN tb_device d ON w.device_id = d.device_id
+        WHERE
+            d.elder_id = #{elderId}
+          AND w.record_time >= #{date}
+          AND w.record_time &lt; #{date} + INTERVAL '1 day'
+    </select>
+
+    <select id="getLatestTemperatureValue" parameterType="map" resultType="java.math.BigDecimal">
+        SELECT
+            temperature
+        FROM
+            tb_temp
+        WHERE
+                device_id IN (
+                SELECT device_id FROM tb_device WHERE elder_id = #{elderId}
+            )
+          AND record_time >= #{date}
+          AND record_time &lt; #{date} + INTERVAL '1 day'
+        ORDER BY
+            record_time DESC
+            LIMIT 1
+    </select>
+
+    <select id="countHomeTimes" parameterType="map" resultType="java.lang.Integer">
+        SELECT
+            COUNT(h.home_id) AS home_times
+        FROM
+            tb_home h
+                JOIN tb_device d ON h.device_id = d.device_id
+        WHERE
+            d.elder_id = #{elderId}
+          AND h.home_time >= #{date}
+          AND h.home_time &lt; #{date} + INTERVAL '1 day'
+    </select>
+
+    <select id="countOutTimes" parameterType="map" resultType="java.lang.Integer">
+        SELECT
+            COUNT(h.out_id) AS out_times
+        FROM
+            tb_out h
+                JOIN tb_device d ON h.device_id = d.device_id
+        WHERE
+            d.elder_id = #{elderId}
+          AND h.out_time >= #{date}
+          AND h.out_time &lt; #{date} + INTERVAL '1 day'
+    </select>
+
+
+    <select id="getAverageSmogLevel" parameterType="map" resultType="java.math.BigDecimal">
+        SELECT
+            AVG(smog_level) AS avg_smog_level
+        FROM
+            tb_smog
+        WHERE
+            device_id IN (SELECT device_id FROM tb_device WHERE elder_id = #{elderId})
+          AND record_time >= #{date}
+          AND record_time &lt; #{date} + INTERVAL '1 day'
+    </select>
 </mapper>

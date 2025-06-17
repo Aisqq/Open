@@ -14,7 +14,7 @@ public class AmqpTask {
     private final AmqpService amqpService;
     @Scheduled(cron = "0/5 * * * * ?")
     public void execute() {
-        log.info("开始执行AMQP消息接收任务");
+        log.info("开始执行AMQP数据接收任务");
         amqpService.receiveMessage();
     }
 }
