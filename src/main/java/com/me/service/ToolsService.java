@@ -41,7 +41,6 @@ public class ToolsService {
         }
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("date", date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
         BigDecimal waterUsage = Optional.ofNullable(elderDao.findWaterUsage(elderId, date))
                 .orElse(BigDecimal.ZERO);
         BigDecimal temperature = Optional.ofNullable(elderDao.getLatestTemperatureValue(elderId, date))
