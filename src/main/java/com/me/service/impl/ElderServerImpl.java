@@ -40,7 +40,6 @@ public class ElderServerImpl implements ElderServer {
     public PageResult findAllElder(QueryPage queryPage) {
 
         PageHelper.startPage(queryPage.getStart(), queryPage.getSize());
-
         Page<ElderVo> page = elderDao.findByCondition(queryPage.getQuery());
         return new PageResult(page.getTotal(), page.getResult());
     }

@@ -1,7 +1,7 @@
 package com.me.task;
 
 
-import com.me.service.AmqpService;
+import com.me.service.iotservice.AmqpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
