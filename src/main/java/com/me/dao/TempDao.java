@@ -1,10 +1,7 @@
 package com.me.dao;
 
 import com.me.entity.Temp;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
 
@@ -20,10 +17,13 @@ public interface TempDao {
             "SET temperature = #{temperature}, " +
             "record_time = #{recordTime} " +
             "WHERE temp_id = #{tempId}")
-    int updateTempById(Temp temp);
+    void updateTempById(Temp temp);
 
 
-
+    @Select("SELECT * FROM tb_temp " +
+            "WHERE device_id = #{deviceId} " +
+            "AND record_time BETWEEN #{startOfDay} AND #{endOfDay} " +
+            "LIMIT 1")
     Temp getTempByDeviceIdAndDate(
             @Param("deviceId") String deviceId,
             @Param("startOfDay") LocalDateTime startOfDay,

@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.jms.*;
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -86,9 +89,11 @@ public class AmqpService   {
                     System.out.println("Service ID: " + service.get("service_id"));
                     System.out.println("Event Time: " + service.get("event_time"));
                     Map<String, Object> properties = (Map<String, Object>) service.get("properties");
+                    properties.put("deviceType",service.get("service_id"));
+                    properties.put("recordTime",service.get("event_time"));
                     System.out.println("\nProperties:");
                     for(IotDeviceServer iotDeviceServer:iotDeviceServers){
-                        if(iotDeviceServer.findDeviceType((String) properties.get("type"))){
+                        if(iotDeviceServer.findDeviceType((String) properties.get("deviceType"))){
                             iotDeviceServer.addData(properties);
                             break;
                         }
