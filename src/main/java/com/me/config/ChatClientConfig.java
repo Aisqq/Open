@@ -32,7 +32,7 @@ public class ChatClientConfig {
     }
 
     @Bean
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
     public ChatClient chatClient(ChatClient.Builder builder) {
         User user = UserHolder.getUser();
         if (user == null) {

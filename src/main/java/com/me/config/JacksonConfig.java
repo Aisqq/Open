@@ -9,7 +9,6 @@ public class JacksonConfig {
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
-
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         return mapper;

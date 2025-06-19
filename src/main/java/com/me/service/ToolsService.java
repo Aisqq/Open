@@ -24,9 +24,8 @@ public class ToolsService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return "当前时间：" + now.format(formatter) + "。";
     }
-
     @Tool(description = "获取某一天老人的情况，默认当天")
-    public String getCondition(@ToolParam(description = "日期格式，例如：2023-10-01,如果用户没有提供就获取当天的日期,可以先调用getDate方法") String dateStr,@ToolParam(description = "老人的Id")Integer elderId) {
+    public String getCondition(@ToolParam(description = "日期格式，例如：2023-10-01,如果用户没有提供就必须先调用getDate方法获取当天的日期") String dateStr,@ToolParam(description = "老人的Id")Integer elderId) {
         log.info("elderID:"+elderId+"date"+dateStr);
         LocalDateTime date;
         if (dateStr == null || dateStr.isEmpty()) {
@@ -51,7 +50,6 @@ public class ToolsService {
                 .orElse(0);
         Integer outTimes = Optional.ofNullable(elderDao.countOutTimes(elderId, date))
                 .orElse(0);
-
         resultMap.put("waterUsage", waterUsage);
         resultMap.put("temperature", temperature);
         resultMap.put("smogLevel", smogLevel);

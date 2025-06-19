@@ -29,13 +29,11 @@ public class AmqpConfig {
     @Bean
     public ConnectionFactory connectionFactory() throws Exception {
         String connectionUrl = "amqps://" + baseUrl + ":5671?amqp.vhost=default&amqp.idleTimeout=8000&amqp.saslMechanisms=PLAIN";
-
         Hashtable<String, String> hashtable = new Hashtable<>();
         hashtable.put("connectionfactory.HwConnectionURL", connectionUrl);
         hashtable.put("queue.HwQueueName", queueName);
         hashtable.put(Context.INITIAL_CONTEXT_FACTORY,
                 "org.apache.qpid.jms.jndi.JmsInitialContextFactory");
-
         Context context = new InitialContext(hashtable);
         return (JmsConnectionFactory) context.lookup("HwConnectionURL");
     }
@@ -44,15 +42,11 @@ public class AmqpConfig {
     public Connection connection(ConnectionFactory connectionFactory) throws Exception {
         long timeStamp = System.currentTimeMillis();
         String userName = "accessKey=" + accessKey + "|timestamp=" + timeStamp;
-
         Connection connection = connectionFactory.createConnection(userName, password);
-
-        // 信任服务端
         TransportOptions to = new TransportOptions();
         to.setTrustAll(true);
         ((JmsConnectionFactory) connectionFactory).setSslContext(
                 TransportSupport.createJdkSslContext(to));
-
         return connection;
     }
 

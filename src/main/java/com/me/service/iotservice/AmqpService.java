@@ -3,6 +3,8 @@ package com.me.service.iotservice;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.me.service.IotDeviceServer;
+import lombok.RequiredArgsConstructor;
 import org.apache.qpid.jms.JmsConnection;
 import org.apache.qpid.jms.JmsConnectionListener;
 import org.apache.qpid.jms.message.JmsInboundMessageDispatch;
@@ -10,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.jms.*;
 import java.net.URI;
 import java.util.List;
@@ -22,7 +23,8 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class AmqpService   {
-
+    @Autowired
+    private List<IotDeviceServer> iotDeviceServers;
     private static final Logger log = LoggerFactory.getLogger(AmqpService.class);
 
     private final Connection connection;
@@ -81,12 +83,16 @@ public class AmqpService   {
                 // 处理services数据
                 if (!services.isEmpty()) {
                     Map<String, Object> service = services.get(0);
-
                     System.out.println("Service ID: " + service.get("service_id"));
                     System.out.println("Event Time: " + service.get("event_time"));
-                    // 提取properties并转换为Map
                     Map<String, Object> properties = (Map<String, Object>) service.get("properties");
                     System.out.println("\nProperties:");
+                    for(IotDeviceServer iotDeviceServer:iotDeviceServers){
+                        if(iotDeviceServer.findDeviceType((String) properties.get("type"))){
+                            iotDeviceServer.addData(properties);
+                            break;
+                        }
+                    }
                     for (Map.Entry<String, Object> entry : properties.entrySet()) {
                         System.out.println(entry.getKey() + ": " + entry.getValue());
                     }
