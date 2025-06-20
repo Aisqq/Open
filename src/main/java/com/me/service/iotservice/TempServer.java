@@ -17,9 +17,10 @@ import java.util.Map;
 @Service
 public class TempServer implements IotDeviceServer {
     private final TempDao tempDao;
-    private final String type = "temp";
+
     @Override
     public boolean findDeviceType(String deviceType) {
+        String type = "temp";
         return type.equals(deviceType);
     }
     /**

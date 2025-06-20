@@ -1,5 +1,6 @@
 package com.me.controller;
 
+import com.me.dto.OutStatusDTO;
 import com.me.dto.RegisterDTO;
 import com.me.dto.ResetPasswordDTO;
 import com.me.entity.User;
@@ -7,16 +8,15 @@ import com.me.service.UserService;
 import com.me.utils.Message;
 import com.me.utils.RedisKey;
 import com.me.utils.Result;
+import com.me.utils.UserHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 @RestController
@@ -61,5 +61,19 @@ public class UserController {
     @PostMapping("/pb/verifyCode")
     public Result<String> resetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordDTO,HttpServletResponse response){
         return userService.resetPassword(resetPasswordDTO.getPhone(),resetPasswordDTO.getCode(),response);
+    }
+
+
+    @GetMapping("/getWater")
+    public Result<BigDecimal> getWaterUsage() {
+        return userService.getWaterUsage();
+    }
+    @GetMapping("/getTemp")
+    public Result<BigDecimal> getTemp() {
+        return userService.getTemp();
+    }
+    @GetMapping("/getOutStatus")
+    public Result<OutStatusDTO> getMovementStats() {
+        return userService.getMovementStats();
     }
 }

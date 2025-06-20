@@ -27,7 +27,6 @@ public class AmqpService {
     private final Session session;
     private final Destination queue;
     private MessageConsumer consumer;
-    // 线程池配置
     private final ExecutorService executorService = new ThreadPoolExecutor(
             Runtime.getRuntime().availableProcessors(),
             Runtime.getRuntime().availableProcessors() * 2,
@@ -49,7 +48,6 @@ public class AmqpService {
         if (consumer != null) {
             consumer.close();
         }
-        // 创建消费者并设置消息监听器
         consumer = session.createConsumer(queue);
         consumer.setMessageListener(this::processMessage);
         log.info("消息监听器已注册，等待消息...");
@@ -69,7 +67,6 @@ public class AmqpService {
                 JSONObject notifyData = jsonObject.getJSONObject("notify_data");
                 JSONObject body = notifyData.getJSONObject("body");
                 List<Map> services = body.getJSONArray("services").toJavaList(Map.class);
-
                 // 处理services数据
                 if (!services.isEmpty()) {
                     Map<String, Object> service = services.get(0);

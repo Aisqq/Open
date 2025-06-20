@@ -2,6 +2,7 @@ package com.me.service.impl;
 
 import com.me.dao.ElderDao;
 import com.me.dao.UserDao;
+import com.me.dto.OutStatusDTO;
 import com.me.dto.RegisterDTO;
 import com.me.entity.Elder;
 import com.me.entity.User;
@@ -16,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Slf4j
@@ -81,5 +84,36 @@ public class UserServiceImpl  implements UserService {
         Cookie cookie = CookieUtil.createJwtCookie(jwtToken);
         response.addCookie(cookie);
         return Result.success(Message.SUCCESS);
+    }
+
+
+    @Override
+    public Result<BigDecimal> getWaterUsage() {
+        User user = UserHolder.getUser();
+        Integer elderId = user.getElderId();
+        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        BigDecimal waterUsage = elderDao.findWaterUsage(elderId, today);
+        log.info("用水量："+waterUsage);
+        return Result.success("查询成功", waterUsage);
+    }
+    @Override
+    public Result<BigDecimal> getTemp() {
+        User user = UserHolder.getUser();
+        Integer elderId = user.getElderId();
+        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        BigDecimal temp = elderDao.getLatestTemperatureValue(elderId, today);
+        log.info("体温："+temp);
+        return Result.success("查询成功", temp);
+    }
+    @Override
+    public Result<OutStatusDTO> getMovementStats() {
+        User user = UserHolder.getUser();
+        Integer elderId = user.getElderId();
+        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        Integer outTimes = elderDao.countOutTimes(elderId, today);
+        Integer homeTimes = elderDao.countHomeTimes(elderId, today);
+        OutStatusDTO status = new OutStatusDTO(outTimes, homeTimes);
+        log.info("外出情况："+status);
+        return Result.success("查询成功", status);
     }
 }
