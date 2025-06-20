@@ -90,16 +90,15 @@
           AND record_time &lt; #{date} + INTERVAL '1 day'
     </select>
 
-
     <select id="turnOverCount" parameterType="map" resultType="java.lang.Integer">
         SELECT
             SUM(turn_over_count) AS total_turn_over
         FROM
             tb_sleep s
-                JOIN tb_device d ON s.device_id = s.device_id
+                JOIN tb_device d ON s.device_id = d.device_id
         WHERE
-            s.elder_id = #{elderId}
-          AND s.out_time >= #{date}
-          AND s.out_time &lt; #{date} + INTERVAL '1 day'
+            d.elder_id = #{elderId}
+          AND s.record_date >= #{date}
+          AND s.record_date &lt; #{date} + INTERVAL '1 day'
     </select>
 </mapper>

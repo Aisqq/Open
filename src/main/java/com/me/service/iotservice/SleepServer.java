@@ -27,7 +27,7 @@ public class SleepServer implements IotDeviceServer {
         Sleep sleep = new Sleep();
         sleep.setDeviceId("deviceId");
         sleep.setTurnOverCount((Integer) map.get("sleep"));
-        sleep.setRecordTime(TimeUtil.stringToLocalDateTime((String) map.get("recodeTime")));
+        sleep.setRecordTime(TimeUtil.stringToLocalDateTime((String) map.get("recordTime")));
         sleepDao.add(sleep);
         log.info("sleep:"+sleep);
     }
