@@ -67,7 +67,6 @@ public class AmqpService {
                 JSONObject notifyData = jsonObject.getJSONObject("notify_data");
                 JSONObject body = notifyData.getJSONObject("body");
                 List<Map> services = body.getJSONArray("services").toJavaList(Map.class);
-                // 处理services数据
                 if (!services.isEmpty()) {
                     Map<String, Object> service = services.get(0);
                     System.out.println("Service ID: " + service.get("service_id"));
@@ -76,20 +75,12 @@ public class AmqpService {
                     properties.put("deviceType", service.get("service_id"));
                     properties.put("recordTime", service.get("event_time"));
                     System.out.println("\nProperties:");
-
                     for (IotDeviceServer iotDeviceServer : iotDeviceServers) {
                         if (iotDeviceServer.findDeviceType((String) properties.get("deviceType"))) {
                             iotDeviceServer.addData(properties);
                             break;
                         }
                     }
-
-                    for (Map.Entry<String, Object> entry : properties.entrySet()) {
-                        System.out.println(entry.getKey() + ": " + entry.getValue());
-                    }
-
-                    System.out.println("\n完整的service Map:");
-                    System.out.println(service);
                 }
 
                 log.info("接收到消息: {}", mesStr);

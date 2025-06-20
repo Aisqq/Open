@@ -18,7 +18,7 @@ public class OutServer implements IotDeviceServer {
     private final OutDao outDao;
     @Override
     public boolean findDeviceType(String deviceType) {
-        String type = "home";
+        String type = "out";
         return type.equals(deviceType);
     }
 

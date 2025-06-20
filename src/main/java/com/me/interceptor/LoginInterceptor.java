@@ -18,7 +18,6 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (UserHolder.getUser() == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            log.info("权限");
             response.setContentType("application/json;charset=UTF-8");
             Map<String, Object> result = new HashMap<>();
             result.put("code", 401);
