@@ -10,7 +10,7 @@ public interface TempDao {
     @Insert("INSERT INTO tb_temp (device_id, temperature, record_time) " +
             "VALUES (#{deviceId}, #{temperature}, #{recordTime})")
     @Options(useGeneratedKeys = true, keyProperty = "tempId", keyColumn = "temp_id")
-    void addTempData(Temp temp);
+    void add(Temp temp);
 
 
     @Update("UPDATE tb_temp " +

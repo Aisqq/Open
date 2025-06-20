@@ -53,7 +53,7 @@ public class TempServer implements IotDeviceServer {
             temp.setTempId(findTemp.getTempId());
             tempDao.updateTempById(temp);
         }else {
-            tempDao.addTempData(temp);
+            tempDao.add(temp);
             log.info("添加温度数据："+temp);
         }
 

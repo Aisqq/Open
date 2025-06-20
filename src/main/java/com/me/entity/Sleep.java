@@ -13,5 +13,5 @@ public class Sleep {
     private Integer sleepId;
     private String  deviceId;
     private Integer turnOverCount;
-    private LocalDateTime recodeDate;
+    private LocalDateTime recordTime;
 }

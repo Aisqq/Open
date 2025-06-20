@@ -8,7 +8,6 @@ import com.me.service.UserService;
 import com.me.utils.Message;
 import com.me.utils.RedisKey;
 import com.me.utils.Result;
-import com.me.utils.UserHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -75,5 +74,10 @@ public class UserController {
     @GetMapping("/getOutStatus")
     public Result<OutStatusDTO> getMovementStats() {
         return userService.getMovementStats();
+    }
+
+    @GetMapping("/getTurnOverCount")
+    public Result<Integer> getTurnOverCount() {
+        return userService.getTurnOverCount();
     }
 }

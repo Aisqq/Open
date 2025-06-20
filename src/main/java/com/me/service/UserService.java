@@ -22,4 +22,6 @@ public interface UserService {
     Result<BigDecimal> getWaterUsage();
 
     Result<OutStatusDTO> getMovementStats();
+
+    Result<Integer> getTurnOverCount();
 }

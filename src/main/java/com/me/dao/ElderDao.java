@@ -33,4 +33,6 @@ public interface ElderDao {
     Integer countOutTimes(@Param("elderId") Integer elderId, @Param("date") LocalDateTime date);
 
     BigDecimal getAverageSmogLevel(@Param("elderId") Integer elderId, @Param("date") LocalDateTime date);
+
+    Integer turnOverCount(@Param("elderId") Integer elderId, @Param("date") LocalDateTime date);
 }
