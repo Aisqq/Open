@@ -124,4 +124,12 @@ public class UserServiceImpl  implements UserService {
         LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
         return Result.success(Message.SUCCESS,elderDao.turnOverCount(elderId,today));
     }
+
+    @Override
+    public Result<BigDecimal> getSmog() {
+        User user = UserHolder.getUser();
+        Integer elderId = user.getElderId();
+        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        return Result.success(Message.SUCCESS,elderDao.getAverageSmogLevel(elderId,today));
+    }
 }

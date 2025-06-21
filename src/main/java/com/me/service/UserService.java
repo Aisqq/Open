@@ -24,4 +24,6 @@ public interface UserService {
     Result<OutStatusVO> getMovementStats();
 
     Result<Integer> getTurnOverCount();
+
+    Result<BigDecimal> getSmog();
 }

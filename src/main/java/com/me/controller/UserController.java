@@ -91,4 +91,9 @@ public class UserController {
         LocalDateTime startTime = endTime.minus(30, ChronoUnit.DAYS);
         return alarmLogService.getAlarmLogsByTimeRange(startTime, endTime);
     }
+
+    @GetMapping("/getSmog")
+    public Result<BigDecimal> getSmog() {
+        return userService.getSmog();
+    }
 }
