@@ -96,4 +96,9 @@ public class UserController {
     public Result<BigDecimal> getSmog() {
         return userService.getSmog();
     }
+
+    @PostMapping("/alarm-logs/{alarmId}/status/")
+    public Result<String> alarmStatus(@PathVariable("alarmId") Integer alarmId){
+        return alarmLogService.alarmStatus(alarmId);
+    }
 }

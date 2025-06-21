@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface AlarmLogService {
     Result<List<AlarmLog>> getAlarmLogsByTimeRange(LocalDateTime startTime, LocalDateTime endTime);
+
+    Result<String> alarmStatus(Integer alarmId);
 }

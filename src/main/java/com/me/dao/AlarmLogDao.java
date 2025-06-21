@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface AlarmLogDao {
     List<AlarmLog> getAlarmLogsByTimeRange(@Param("elderId")Integer elderId, @Param("startTime")LocalDateTime startTime, @Param("endTime")LocalDateTime endTime);
+
+    AlarmLog findById(Integer alarmId);
+
+    void updateStatus(Integer alarmId);
 }

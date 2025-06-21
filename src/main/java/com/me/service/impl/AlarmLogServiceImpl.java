@@ -24,4 +24,10 @@ public class AlarmLogServiceImpl implements AlarmLogService {
         Integer elderId = user.getElderId();
         return Result.success(Message.SUCCESS,alarmLogDao.getAlarmLogsByTimeRange(elderId,startTime,endTime));
     }
+
+    @Override
+    public Result<String> alarmStatus(Integer alarmId) {
+        alarmLogDao.updateStatus(alarmId);
+        return Result.success(Message.SUCCESS);
+    }
 }

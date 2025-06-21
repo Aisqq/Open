@@ -27,5 +27,21 @@
           AND alarm_time BETWEEN #{startTime} AND #{endTime}
         ORDER BY alarm_time DESC
     </select>
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT
+            alarm_id,
+            elder_id,
+            alarm_type,
+            reason,
+            alarm_time,
+            status
+        FROM tb_alarm_log
+        WHERE alarm_id = #{alarmId}
+    </select>
 
+    <update id="updateStatus">
+        UPDATE tb_alarm_log
+        SET status = "已处理"
+        WHERE alarm_id = #{alarmId}
+    </update>
 </mapper>
