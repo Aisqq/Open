@@ -28,6 +28,7 @@ public class CaptchaController {
      */
     @GetMapping("/pic")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.info("他");
         captchaService.generateCaptcha(request,response);
     }
 

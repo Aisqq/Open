@@ -15,7 +15,7 @@ public interface ElderDao {
     @Select("select * from tb_elder where secret_key = #{key}")
     Elder findByKey(String key);
 
-    @Insert("INSERT INTO tb_elder (name, gender, age, secret_key) VALUES (#{name}, #{gender}, #{age}, #{secret_key})")
+    @Insert("INSERT INTO tb_elder (name, gender, age, secret_key) VALUES (#{name}, #{gender}, #{age}, #{secretKey})")
     @Options(useGeneratedKeys = true, keyProperty = "elderId")
     void addElder(Elder elder);
 

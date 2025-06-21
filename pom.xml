@@ -140,4 +140,42 @@
             </snapshots>
         </repository>
     </repositories>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.2</version>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dockerDirectory>${project.basedir}</dockerDirectory>
+                    <dockerfile>src/main/resources/docker/Dockerfile</dockerfile>
+                    <imageName>${project.artifactId}:${project.version}</imageName>
+                    <dockerHost>http://10.168.89.239:2375</dockerHost>
+
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>

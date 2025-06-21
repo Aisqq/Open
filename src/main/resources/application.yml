@@ -11,7 +11,16 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://10.168.89.239:5432/postgres?useSSL=false&serverTimezone=Asia/Shanghai
     username: admin
-    password: ${GAUSSDB_PWD}
+    password: Zjhw@12345
+    hikari:
+      minimum-idle: 5                    # 最小空闲连接数
+      maximum-pool-size: 15              # 最大连接数
+      auto-commit: true                  # 自动提交
+      idle-timeout: 30000                # 空闲连接超时时间(毫秒)
+      pool-name: HikariCP                # 连接池名称
+      max-lifetime: 1800000              # 连接最大生命周期(毫秒)
+      connection-timeout: 30000          # 连接超时时间(毫秒)
+      connection-test-query: SELECT 1    # 测试连接的SQL语句
   data:
     redis:
       host: 10.168.82.114
@@ -41,3 +50,5 @@ amqp:
   password: ofrspNrdii3W887VAvCoX9IktXWdZoqa
   baseUrl: 1b177f15b8.st1.iotda-app.cn-north-4.myhuaweicloud.com
   queueName: DefaultQueue
+
+
