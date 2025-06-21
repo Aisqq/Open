@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AlarmLog {
     private Integer alarmId;
+    private Integer ElderId;
     private String alarmType;
     private String reason;
     private LocalDateTime alarmTime;
+    private String status;
 }

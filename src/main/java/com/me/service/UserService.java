@@ -1,6 +1,6 @@
 package com.me.service;
 
-import com.me.dto.OutStatusDTO;
+import com.me.vo.OutStatusVO;
 import com.me.dto.RegisterDTO;
 import com.me.entity.User;
 import com.me.utils.Result;
@@ -21,7 +21,7 @@ public interface UserService {
 
     Result<BigDecimal> getWaterUsage();
 
-    Result<OutStatusDTO> getMovementStats();
+    Result<OutStatusVO> getMovementStats();
 
     Result<Integer> getTurnOverCount();
 }

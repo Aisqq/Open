@@ -2,7 +2,7 @@ package com.me.service.impl;
 
 import com.me.dao.ElderDao;
 import com.me.dao.UserDao;
-import com.me.dto.OutStatusDTO;
+import com.me.vo.OutStatusVO;
 import com.me.dto.RegisterDTO;
 import com.me.entity.Elder;
 import com.me.entity.User;
@@ -106,13 +106,13 @@ public class UserServiceImpl  implements UserService {
         return Result.success(Message.SUCCESS, temp);
     }
     @Override
-    public Result<OutStatusDTO> getMovementStats() {
+    public Result<OutStatusVO> getMovementStats() {
         User user = UserHolder.getUser();
         Integer elderId = user.getElderId();
         LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
         Integer outTimes = elderDao.countOutTimes(elderId, today);
         Integer homeTimes = elderDao.countHomeTimes(elderId, today);
-        OutStatusDTO status = new OutStatusDTO(outTimes, homeTimes);
+        OutStatusVO status = new OutStatusVO(outTimes, homeTimes);
         log.info("外出情况："+status);
         return Result.success(Message.SUCCESS, status);
     }

@@ -1,6 +1,8 @@
 package com.me.controller;
 
-import com.me.dto.OutStatusDTO;
+import com.me.entity.AlarmLog;
+import com.me.service.AlarmLogService;
+import com.me.vo.OutStatusVO;
 import com.me.dto.RegisterDTO;
 import com.me.dto.ResetPasswordDTO;
 import com.me.entity.User;
@@ -16,12 +18,16 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
+    private final AlarmLogService alarmLogService;
     private final UserService userService;
     private final StringRedisTemplate stringRedisTemplate;
     /**
@@ -72,12 +78,17 @@ public class UserController {
         return userService.getTemp();
     }
     @GetMapping("/getOutStatus")
-    public Result<OutStatusDTO> getMovementStats() {
+    public Result<OutStatusVO> getMovementStats() {
         return userService.getMovementStats();
     }
-
     @GetMapping("/getTurnOverCount")
     public Result<Integer> getTurnOverCount() {
         return userService.getTurnOverCount();
+    }
+    @GetMapping("/alarm-logs/recent-30-days")
+    public Result<List<AlarmLog>> getRecent30DaysAlarmLogs() {
+        LocalDateTime endTime = LocalDateTime.now();
+        LocalDateTime startTime = endTime.minus(30, ChronoUnit.DAYS);
+        return alarmLogService.getAlarmLogsByTimeRange(startTime, endTime);
     }
 }

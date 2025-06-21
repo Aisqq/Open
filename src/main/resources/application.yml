@@ -11,16 +11,16 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://10.168.89.239:5432/postgres?useSSL=false&serverTimezone=Asia/Shanghai
     username: admin
-    password: Zjhw@12345
+    password: ${GAUSSDB_PWD}
     hikari:
-      minimum-idle: 5                    # ×îĞ¡¿ÕÏĞÁ¬½ÓÊı
-      maximum-pool-size: 15              # ×î´óÁ¬½ÓÊı
-      auto-commit: true                  # ×Ô¶¯Ìá½»
-      idle-timeout: 30000                # ¿ÕÏĞÁ¬½Ó³¬Ê±Ê±¼ä(ºÁÃë)
-      pool-name: HikariCP                # Á¬½Ó³ØÃû³Æ
-      max-lifetime: 1800000              # Á¬½Ó×î´óÉúÃüÖÜÆÚ(ºÁÃë)
-      connection-timeout: 30000          # Á¬½Ó³¬Ê±Ê±¼ä(ºÁÃë)
-      connection-test-query: SELECT 1    # ²âÊÔÁ¬½ÓµÄSQLÓï¾ä
+      minimum-idle: 5                    # æœ€å°ç©ºé—²è¿æ¥æ•°
+      maximum-pool-size: 15              # æœ€å¤§è¿æ¥æ•°
+      auto-commit: true                  # è‡ªåŠ¨æäº¤
+      idle-timeout: 30000                # ç©ºé—²è¿æ¥è¶…æ—¶æ—¶é—´(æ¯«ç§’)
+      pool-name: HikariCP                # è¿æ¥æ± åç§°
+      max-lifetime: 1800000              # è¿æ¥æœ€å¤§ç”Ÿå‘½å‘¨æœŸ(æ¯«ç§’)
+      connection-timeout: 30000          # è¿æ¥è¶…æ—¶æ—¶é—´(æ¯«ç§’)
+      connection-test-query: SELECT 1    # æµ‹è¯•è¿æ¥çš„SQLè¯­å¥
   data:
     redis:
       host: 10.168.82.114

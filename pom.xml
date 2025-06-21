@@ -145,7 +145,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
             </plugin>
             <plugin>
                 <groupId>com.spotify</groupId>
@@ -165,7 +164,6 @@
                     <dockerfile>src/main/resources/docker/Dockerfile</dockerfile>
                     <imageName>${project.artifactId}:${project.version}</imageName>
                     <dockerHost>http://10.168.89.239:2375</dockerHost>
-
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
@@ -175,7 +173,6 @@
                     </resources>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

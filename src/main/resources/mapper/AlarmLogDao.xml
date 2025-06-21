@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.me.dao.AlarmLogDao">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.me.entity.AlarmLog">
+        <id column="alarm_id" property="alarmId" jdbcType="INTEGER"/>
+        <result column="elder_id" property="elderId" jdbcType="INTEGER"/>
+        <result column="alarm_type" property="alarmType" jdbcType="VARCHAR"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="alarm_time" property="alarmTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getAlarmLogsByTimeRange" resultMap="BaseResultMap">
+        SELECT
+            alarm_id,
+            elder_id,
+            alarm_type,
+            reason,
+            alarm_time,
+            status
+        FROM tb_alarm_log
+        WHERE
+            elder_id = #{elderId}
+          AND alarm_time BETWEEN #{startTime} AND #{endTime}
+        ORDER BY alarm_time DESC
+    </select>
+
+</mapper>
