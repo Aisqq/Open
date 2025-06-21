@@ -41,7 +41,7 @@
 
     <update id="updateStatus">
         UPDATE tb_alarm_log
-        SET status = "已处理"
+        SET status = '已处理'
         WHERE alarm_id = #{alarmId}
     </update>
 </mapper>
