@@ -76,7 +76,7 @@ public class UserController {
 
     @GetMapping("/getWater")
     public Result<BigDecimal> getWaterUsage(
-            @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime date) {
+            @RequestParam(value = "date", required = false)  LocalDateTime date) {
         if (date == null) {
             date = LocalDateTime.now();
         }
@@ -84,7 +84,7 @@ public class UserController {
         return userService.getWaterUsage(date);
     }
     @GetMapping("/getTemp")
-    public Result<BigDecimal> getTemp(@RequestParam(value = "date", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  LocalDateTime date) {
+    public Result<BigDecimal> getTemp(@RequestParam(value = "date", required = false) LocalDateTime date) {
         if (date == null) {
             date = LocalDateTime.now();
         }
@@ -92,7 +92,7 @@ public class UserController {
         return userService.getTemp(date);
     }
     @GetMapping("/getOutStatus")
-    public Result<OutStatusVO> getMovementStats( @RequestParam(value = "date", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  LocalDateTime date) {
+    public Result<OutStatusVO> getMovementStats( @RequestParam(value = "date", required = false) LocalDateTime date) {
         if (date == null) {
             date = LocalDateTime.now();
         }
@@ -100,7 +100,7 @@ public class UserController {
         return userService.getMovementStats(date);
     }
     @GetMapping("/getTurnOverCount")
-    public Result<Integer> getTurnOverCount( @RequestParam(value = "date", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  LocalDateTime date) {
+    public Result<Integer> getTurnOverCount( @RequestParam(value = "date", required = false)LocalDateTime date) {
         if (date == null) {
             date = LocalDateTime.now();
         }
@@ -109,7 +109,7 @@ public class UserController {
     }
 
     @GetMapping("/getSmog")
-    public Result<BigDecimal> getSmog( @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime date) {
+    public Result<BigDecimal> getSmog( @RequestParam(value = "date", required = false)  LocalDateTime date) {
         if (date == null) {
             date = LocalDateTime.now();
         }

@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 
 @Data
 public class WaterUsageRecord {
-    private LocalDateTime recordTime;
+    private LocalDateTime recordDate;
     private BigDecimal waterUsage;
 }

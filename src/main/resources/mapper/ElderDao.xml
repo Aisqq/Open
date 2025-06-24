@@ -108,7 +108,7 @@
     <!-- 查询老年人在指定时间范围内的用水量记录 -->
     <select id="findWaterUsageRange" resultType="com.me.vo.record.WaterUsageRecord">
         SELECT
-            w.record_time AS recordTime,
+            DATE_TRUNC('day', w.record_time) AS recordDate,
             SUM(w.water_usage) AS waterUsage
         FROM
             tb_water w
@@ -116,11 +116,11 @@
         WHERE
             d.elder_id = #{elderId}
           AND w.record_time &gt;= #{startDate}
-          AND w.record_time &lt; #{endDate} + INTERVAL '1 day'
+          AND w.record_time &lt; #{endDate}
         GROUP BY
-            DATE(w.record_time)
+            DATE_TRUNC('day', w.record_time)
         ORDER BY
-            w.record_time ASC
+            recordDate ASC
     </select>
 
     <!-- 查询老年人在指定时间范围内的体温记录 -->
@@ -134,15 +134,15 @@
         WHERE
             d.elder_id = #{elderId}
           AND t.record_time &gt;= #{startDate}
-          AND t.record_time &lt; #{endDate} + INTERVAL '1 day'
+          AND t.record_time &lt; #{endDate}
         ORDER BY
-            t.record_time ASC
+            recordTime ASC
     </select>
 
     <!-- 查询老年人在指定时间范围内的回家次数统计 -->
     <select id="countHomeTimesRange" resultType="com.me.vo.record.HomeTimesRecord">
         SELECT
-            DATE(h.home_time) AS date,
+            DATE_TRUNC('day', h.home_time) AS date,
             COUNT(h.home_id) AS homeTimes
         FROM
             tb_home h
@@ -150,17 +150,17 @@
         WHERE
             d.elder_id = #{elderId}
           AND h.home_time &gt;= #{startDate}
-          AND h.home_time &lt; #{endDate} + INTERVAL '1 day'
+          AND h.home_time &lt; #{endDate}
         GROUP BY
-            DATE(h.home_time)
+            DATE_TRUNC('day', h.home_time)
         ORDER BY
-            DATE(h.home_time) ASC
+            date ASC
     </select>
 
     <!-- 查询老年人在指定时间范围内的外出次数统计 -->
     <select id="countOutTimesRange" resultType="com.me.vo.record.OutTimesRecord">
         SELECT
-            DATE(h.out_time) AS date,
+            DATE_TRUNC('day', h.out_time) AS date,
             COUNT(h.out_id) AS outTimes
         FROM
             tb_out h
@@ -168,17 +168,17 @@
         WHERE
             d.elder_id = #{elderId}
           AND h.out_time &gt;= #{startDate}
-          AND h.out_time &lt; #{endDate} + INTERVAL '1 day'
+          AND h.out_time &lt; #{endDate}
         GROUP BY
-            DATE(h.out_time)
+            DATE_TRUNC('day', h.out_time)
         ORDER BY
-            DATE(h.out_time) ASC
+            date ASC
     </select>
 
     <!-- 查询老年人在指定时间范围内的平均雾霾水平 -->
     <select id="getAverageSmogLevelRange" resultType="com.me.vo.record.SmogLevelRecord">
         SELECT
-            DATE(s.record_time) AS date,
+            DATE_TRUNC('day', s.record_time) AS date,
             AVG(s.smog_level) AS averageSmogLevel
         FROM
             tb_smog s
@@ -186,28 +186,28 @@
         WHERE
             d.elder_id = #{elderId}
           AND s.record_time &gt;= #{startDate}
-          AND s.record_time &lt; #{endDate} + INTERVAL '1 day'
+          AND s.record_time &lt; #{endDate}
         GROUP BY
-            DATE(s.record_time)
+            DATE_TRUNC('day', s.record_time)
         ORDER BY
-            DATE(s.record_time) ASC
+            date ASC
     </select>
 
     <!-- 查询老年人在指定时间范围内的翻身次数统计 -->
     <select id="turnOverCountRange" resultType="com.me.vo.record.TurnOverRecord">
         SELECT
             s.record_date AS date,
-        SUM(s.turn_over_count) AS turnOverCount
+            SUM(s.turn_over_count) AS turnOverCount
         FROM
             tb_sleep s
             JOIN tb_device d ON s.device_id = d.device_id
         WHERE
             d.elder_id = #{elderId}
           AND s.record_date &gt;= #{startDate}
-          AND s.record_date &lt; #{endDate} + INTERVAL '1 day'
+          AND s.record_date &lt; #{endDate}
         GROUP BY
             s.record_date
         ORDER BY
-            s.record_date ASC
+            date ASC
     </select>
 </mapper>

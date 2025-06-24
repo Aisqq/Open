@@ -52,3 +52,9 @@ amqp:
   queueName: DefaultQueue
 
 
+logging:
+  level:
+    # MyBatis日志
+    com.me.dao: DEBUG
+
+

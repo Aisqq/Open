@@ -25,7 +25,7 @@ public class ChartController{
             @RequestParam("startDate") LocalDateTime startDate,
             @RequestParam("endDate") LocalDateTime endDate) {
         startDate = startDate.toLocalDate().atStartOfDay();
-        endDate = endDate.toLocalDate().atStartOfDay();
+        endDate = endDate.toLocalDate().atStartOfDay().plusDays(1);
         return chartService.findWaterUsageRange(startDate, endDate);
     }
 
@@ -37,7 +37,7 @@ public class ChartController{
             @RequestParam("startDate") LocalDateTime startDate,
             @RequestParam("endDate") LocalDateTime endDate) {
         startDate = startDate.toLocalDate().atStartOfDay();
-        endDate = endDate.toLocalDate().atStartOfDay();
+        endDate = endDate.toLocalDate().atStartOfDay().plusDays(1);
         return chartService.findTemperatureRange(startDate, endDate);
     }
 
@@ -49,7 +49,7 @@ public class ChartController{
             @RequestParam("startDate") LocalDateTime startDate,
             @RequestParam("endDate") LocalDateTime endDate) {
         startDate = startDate.toLocalDate().atStartOfDay();
-        endDate = endDate.toLocalDate().atStartOfDay();
+        endDate = endDate.toLocalDate().atStartOfDay().plusDays(1);
         return chartService.findHomeTimesRange(startDate, endDate);
     }
 
@@ -61,7 +61,7 @@ public class ChartController{
             @RequestParam("startDate") LocalDateTime startDate,
             @RequestParam("endDate") LocalDateTime endDate) {
         startDate = startDate.toLocalDate().atStartOfDay();
-        endDate = endDate.toLocalDate().atStartOfDay();
+        endDate = endDate.toLocalDate().atStartOfDay().plusDays(1);
         return chartService.findOutTimesRange(startDate, endDate);
     }
 
@@ -73,7 +73,7 @@ public class ChartController{
             @RequestParam("startDate") LocalDateTime startDate,
             @RequestParam("endDate") LocalDateTime endDate) {
         startDate = startDate.toLocalDate().atStartOfDay();
-        endDate = endDate.toLocalDate().atStartOfDay();
+        endDate = endDate.toLocalDate().atStartOfDay().plusDays(1);
         return chartService.findSmogLevelRange(startDate, endDate);
     }
 
@@ -85,7 +85,7 @@ public class ChartController{
             @RequestParam("startDate") LocalDateTime startDate,
             @RequestParam("endDate") LocalDateTime endDate) {
         startDate = startDate.toLocalDate().atStartOfDay();
-        endDate = endDate.toLocalDate().atStartOfDay();
+        endDate = endDate.toLocalDate().atStartOfDay().plusDays(1);
         return chartService.findTurnOverRange(startDate, endDate);
     }
 }
