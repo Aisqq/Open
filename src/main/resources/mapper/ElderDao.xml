@@ -34,7 +34,7 @@
                 JOIN tb_device d ON w.device_id = d.device_id
         WHERE
             d.elder_id = #{elderId}
-          AND w.record_time >= #{date}
+          AND w.record_time &gt;= #{date}
           AND w.record_time &lt; #{date} + INTERVAL '1 day'
     </select>
 
@@ -47,7 +47,7 @@
                 device_id IN (
                 SELECT device_id FROM tb_device WHERE elder_id = #{elderId}
             )
-          AND record_time >= #{date}
+          AND record_time &gt;= #{date}
           AND record_time &lt; #{date} + INTERVAL '1 day'
         ORDER BY
             record_time DESC
@@ -62,7 +62,7 @@
                 JOIN tb_device d ON h.device_id = d.device_id
         WHERE
             d.elder_id = #{elderId}
-          AND h.home_time >= #{date}
+          AND h.home_time &gt;= #{date}
           AND h.home_time &lt; #{date} + INTERVAL '1 day'
     </select>
 
@@ -74,7 +74,7 @@
                 JOIN tb_device d ON h.device_id = d.device_id
         WHERE
             d.elder_id = #{elderId}
-          AND h.out_time >= #{date}
+          AND h.out_time &gt;= #{date}
           AND h.out_time &lt; #{date} + INTERVAL '1 day'
     </select>
 
@@ -86,7 +86,7 @@
             tb_smog
         WHERE
             device_id IN (SELECT device_id FROM tb_device WHERE elder_id = #{elderId})
-          AND record_time >= #{date}
+          AND record_time &gt;= #{date}
           AND record_time &lt; #{date} + INTERVAL '1 day'
     </select>
 
@@ -99,7 +99,115 @@
                 JOIN tb_device d ON s.device_id = d.device_id
         WHERE
             d.elder_id = #{elderId}
-          AND s.record_date >= #{date}
+          AND s.record_date &gt;= #{date}
           AND s.record_date &lt; #{date} + INTERVAL '1 day'
+    </select>
+
+
+
+    <!-- 查询老年人在指定时间范围内的用水量记录 -->
+    <select id="findWaterUsageRange" resultType="com.me.vo.record.WaterUsageRecord">
+        SELECT
+            w.record_time AS recordTime,
+            SUM(w.water_usage) AS waterUsage
+        FROM
+            tb_water w
+                JOIN tb_device d ON w.device_id = d.device_id
+        WHERE
+            d.elder_id = #{elderId}
+          AND w.record_time &gt;= #{startDate}
+          AND w.record_time &lt; #{endDate} + INTERVAL '1 day'
+        GROUP BY
+            DATE(w.record_time)
+        ORDER BY
+            w.record_time ASC
+    </select>
+
+    <!-- 查询老年人在指定时间范围内的体温记录 -->
+    <select id="getTemperatureValueRange" resultType="com.me.vo.record.TemperatureRecord">
+        SELECT
+            t.record_time AS recordTime,
+            t.temperature AS temperature
+        FROM
+            tb_temp t
+                JOIN tb_device d ON t.device_id = d.device_id
+        WHERE
+            d.elder_id = #{elderId}
+          AND t.record_time &gt;= #{startDate}
+          AND t.record_time &lt; #{endDate} + INTERVAL '1 day'
+        ORDER BY
+            t.record_time ASC
+    </select>
+
+    <!-- 查询老年人在指定时间范围内的回家次数统计 -->
+    <select id="countHomeTimesRange" resultType="com.me.vo.record.HomeTimesRecord">
+        SELECT
+            DATE(h.home_time) AS date,
+            COUNT(h.home_id) AS homeTimes
+        FROM
+            tb_home h
+            JOIN tb_device d ON h.device_id = d.device_id
+        WHERE
+            d.elder_id = #{elderId}
+          AND h.home_time &gt;= #{startDate}
+          AND h.home_time &lt; #{endDate} + INTERVAL '1 day'
+        GROUP BY
+            DATE(h.home_time)
+        ORDER BY
+            DATE(h.home_time) ASC
+    </select>
+
+    <!-- 查询老年人在指定时间范围内的外出次数统计 -->
+    <select id="countOutTimesRange" resultType="com.me.vo.record.OutTimesRecord">
+        SELECT
+            DATE(h.out_time) AS date,
+            COUNT(h.out_id) AS outTimes
+        FROM
+            tb_out h
+            JOIN tb_device d ON h.device_id = d.device_id
+        WHERE
+            d.elder_id = #{elderId}
+          AND h.out_time &gt;= #{startDate}
+          AND h.out_time &lt; #{endDate} + INTERVAL '1 day'
+        GROUP BY
+            DATE(h.out_time)
+        ORDER BY
+            DATE(h.out_time) ASC
+    </select>
+
+    <!-- 查询老年人在指定时间范围内的平均雾霾水平 -->
+    <select id="getAverageSmogLevelRange" resultType="com.me.vo.record.SmogLevelRecord">
+        SELECT
+            DATE(s.record_time) AS date,
+            AVG(s.smog_level) AS averageSmogLevel
+        FROM
+            tb_smog s
+            JOIN tb_device d ON s.device_id = d.device_id
+        WHERE
+            d.elder_id = #{elderId}
+          AND s.record_time &gt;= #{startDate}
+          AND s.record_time &lt; #{endDate} + INTERVAL '1 day'
+        GROUP BY
+            DATE(s.record_time)
+        ORDER BY
+            DATE(s.record_time) ASC
+    </select>
+
+    <!-- 查询老年人在指定时间范围内的翻身次数统计 -->
+    <select id="turnOverCountRange" resultType="com.me.vo.record.TurnOverRecord">
+        SELECT
+            s.record_date AS date,
+        SUM(s.turn_over_count) AS turnOverCount
+        FROM
+            tb_sleep s
+            JOIN tb_device d ON s.device_id = d.device_id
+        WHERE
+            d.elder_id = #{elderId}
+          AND s.record_date &gt;= #{startDate}
+          AND s.record_date &lt; #{endDate} + INTERVAL '1 day'
+        GROUP BY
+            s.record_date
+        ORDER BY
+            s.record_date ASC
     </select>
 </mapper>
