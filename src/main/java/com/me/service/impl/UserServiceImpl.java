@@ -2,12 +2,14 @@ package com.me.service.impl;
 
 import com.me.dao.ElderDao;
 import com.me.dao.UserDao;
+import com.me.vo.ElderVo;
 import com.me.vo.OutStatusVO;
 import com.me.dto.RegisterDTO;
 import com.me.entity.Elder;
 import com.me.entity.User;
 import com.me.service.UserService;
 import com.me.utils.*;
+import com.me.vo.UserVo;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -88,48 +90,66 @@ public class UserServiceImpl  implements UserService {
 
 
     @Override
-    public Result<BigDecimal> getWaterUsage() {
+    public Result<BigDecimal> getWaterUsage(LocalDateTime date) {
         User user = UserHolder.getUser();
         Integer elderId = user.getElderId();
-        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
-        BigDecimal waterUsage = elderDao.findWaterUsage(elderId, today);
+        BigDecimal waterUsage = elderDao.findWaterUsage(elderId, date);
         log.info("用水量："+waterUsage);
         return Result.success(Message.SUCCESS, waterUsage);
     }
     @Override
-    public Result<BigDecimal> getTemp() {
+    public Result<BigDecimal> getTemp(LocalDateTime date) {
         User user = UserHolder.getUser();
         Integer elderId = user.getElderId();
-        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
-        BigDecimal temp = elderDao.getLatestTemperatureValue(elderId, today);
+        BigDecimal temp = elderDao.getLatestTemperatureValue(elderId, date);
         log.info("体温："+temp);
         return Result.success(Message.SUCCESS, temp);
     }
     @Override
-    public Result<OutStatusVO> getMovementStats() {
+    public Result<OutStatusVO> getMovementStats(LocalDateTime date) {
         User user = UserHolder.getUser();
         Integer elderId = user.getElderId();
-        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
-        Integer outTimes = elderDao.countOutTimes(elderId, today);
-        Integer homeTimes = elderDao.countHomeTimes(elderId, today);
+        Integer outTimes = elderDao.countOutTimes(elderId, date);
+        Integer homeTimes = elderDao.countHomeTimes(elderId, date);
         OutStatusVO status = new OutStatusVO(outTimes, homeTimes);
         log.info("外出情况："+status);
         return Result.success(Message.SUCCESS, status);
     }
 
     @Override
-    public Result<Integer> getTurnOverCount() {
+    public Result<Integer> getTurnOverCount(LocalDateTime date) {
         User user = UserHolder.getUser();
         Integer elderId = user.getElderId();
-        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
-        return Result.success(Message.SUCCESS,elderDao.turnOverCount(elderId,today));
+        return Result.success(Message.SUCCESS,elderDao.turnOverCount(elderId,date));
     }
 
     @Override
-    public Result<BigDecimal> getSmog() {
+    public Result<BigDecimal> getSmog(LocalDateTime date) {
         User user = UserHolder.getUser();
         Integer elderId = user.getElderId();
-        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
-        return Result.success(Message.SUCCESS,elderDao.getAverageSmogLevel(elderId,today));
+        return Result.success(Message.SUCCESS,elderDao.getAverageSmogLevel(elderId,date));
+    }
+
+    @Override
+    public Result<ElderVo> getElder() {
+        User user = UserHolder.getUser();
+        Integer elderId = user.getElderId();
+        Elder elder = elderDao.findById(elderId);
+        ElderVo elderVo = new ElderVo();
+        elderVo.setElderId(elderId);
+        elderVo.setAge(elder.getAge());
+        elderVo.setGender(elder.getGender());
+        elderVo.setName(elder.getName());
+        return Result.success(Message.SUCCESS,elderVo);
+    }
+
+    @Override
+    public Result<UserVo> getUser() {
+        User user = UserHolder.getUser();
+        UserVo userVo = new UserVo();
+        userVo.setUserId(user.getUserId());
+        userVo.setUsername(user.getUsername());
+        userVo.setPhone(user.getPhone());
+        return Result.success(Message.SUCCESS,userVo);
     }
 }

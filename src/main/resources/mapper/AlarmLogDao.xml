@@ -25,6 +25,9 @@
         WHERE
             elder_id = #{elderId}
           AND alarm_time BETWEEN #{startTime} AND #{endTime}
+        <if test="type != null and type != ''">
+            AND alarm_type = #{type}
+        </if>
         ORDER BY alarm_time DESC
     </select>
     <select id="findById" resultMap="BaseResultMap">

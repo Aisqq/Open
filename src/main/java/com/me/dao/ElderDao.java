@@ -35,4 +35,8 @@ public interface ElderDao {
     BigDecimal getAverageSmogLevel(@Param("elderId") Integer elderId, @Param("date") LocalDateTime date);
 
     Integer turnOverCount(@Param("elderId") Integer elderId, @Param("date") LocalDateTime date);
+
+
+    @Select("select * from tb_elder where elder_id = #{elderId}")
+    Elder findById(Integer elderId);
 }

@@ -1,7 +1,10 @@
 package com.me.controller;
 
 import com.me.entity.AlarmLog;
+import com.me.entity.Elder;
 import com.me.service.AlarmLogService;
+import com.me.utils.PageResult;
+import com.me.vo.ElderVo;
 import com.me.vo.OutStatusVO;
 import com.me.dto.RegisterDTO;
 import com.me.dto.ResetPasswordDTO;
@@ -10,17 +13,19 @@ import com.me.service.UserService;
 import com.me.utils.Message;
 import com.me.utils.RedisKey;
 import com.me.utils.Result;
+import com.me.vo.UserVo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -70,35 +75,73 @@ public class UserController {
 
 
     @GetMapping("/getWater")
-    public Result<BigDecimal> getWaterUsage() {
-        return userService.getWaterUsage();
+    public Result<BigDecimal> getWaterUsage(
+            @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        date = date.toLocalDate().atStartOfDay();
+        return userService.getWaterUsage(date);
     }
     @GetMapping("/getTemp")
-    public Result<BigDecimal> getTemp() {
-        return userService.getTemp();
+    public Result<BigDecimal> getTemp(@RequestParam(value = "date", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        date = date.toLocalDate().atStartOfDay();
+        return userService.getTemp(date);
     }
     @GetMapping("/getOutStatus")
-    public Result<OutStatusVO> getMovementStats() {
-        return userService.getMovementStats();
+    public Result<OutStatusVO> getMovementStats( @RequestParam(value = "date", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        date = date.toLocalDate().atStartOfDay();
+        return userService.getMovementStats(date);
     }
     @GetMapping("/getTurnOverCount")
-    public Result<Integer> getTurnOverCount() {
-        return userService.getTurnOverCount();
-    }
-    @GetMapping("/alarm-logs/recent-30-days")
-    public Result<List<AlarmLog>> getRecent30DaysAlarmLogs() {
-        LocalDateTime endTime = LocalDateTime.now();
-        LocalDateTime startTime = endTime.minus(30, ChronoUnit.DAYS);
-        return alarmLogService.getAlarmLogsByTimeRange(startTime, endTime);
+    public Result<Integer> getTurnOverCount( @RequestParam(value = "date", required = false)@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        date = date.toLocalDate().atStartOfDay();
+        return userService.getTurnOverCount(date);
     }
 
     @GetMapping("/getSmog")
-    public Result<BigDecimal> getSmog() {
-        return userService.getSmog();
+    public Result<BigDecimal> getSmog( @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        date = date.toLocalDate().atStartOfDay();
+        return userService.getSmog(date);
     }
 
     @PutMapping("/alarm-logs/{alarmId}/status")
     public Result<String> alarmStatus(@PathVariable("alarmId") Integer alarmId){
         return alarmLogService.alarmStatus(alarmId);
+    }
+
+    @GetMapping("/alarm-logs/recent-30-days")
+    public PageResult getRecent30DaysAlarmLogs(@PathParam("page")Integer page, @PathParam("pageSize") Integer pageSize, @RequestParam(value = "type", required = false) String type) {
+        int start = page != null ? page : 0;
+        int size = pageSize != null ? pageSize : 10;
+        if (start < 0) {
+            start = 0;
+        }
+        if (size <= 0 || size > 100) {
+            size = 10;
+        }
+        LocalDateTime endTime = LocalDateTime.now();
+        LocalDateTime startTime = endTime.minus(30, ChronoUnit.DAYS);
+        return alarmLogService.getAlarmLogsByTimeRange(startTime, endTime,start,size,type);
+    }
+    @GetMapping("/getElder")
+    public Result<ElderVo> getElder(){
+        return userService.getElder();
+    }
+    @GetMapping("/getUser")
+    public Result<UserVo> getUser(){
+        return userService.getUser();
     }
 }

@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handleException(Exception ex) {
-        log.error("系统内部异常", ex);
+        log.error("请求错误", ex);
         return buildErrorResponse(500, "系统内部错误，请稍后再试");
     }
 

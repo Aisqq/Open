@@ -161,7 +161,6 @@
                 </executions>
                 <configuration>
                     <dockerDirectory>${project.basedir}</dockerDirectory>
-                    <dockerfile>src/main/resources/docker/Dockerfile</dockerfile>
                     <imageName>${project.artifactId}:${project.version}</imageName>
                     <dockerHost>http://10.168.89.239:2375</dockerHost>
                     <resources>
