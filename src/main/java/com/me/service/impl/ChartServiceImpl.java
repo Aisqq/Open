@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -63,5 +64,13 @@ public class ChartServiceImpl implements ChartService {
         Integer elderId = user.getElderId();
         List<TurnOverRecord> records = elderDao.turnOverCountRange(elderId, startDate, endDate);
         return Result.success(Message.SUCCESS, records);
+    }
+
+    @Override
+    public Result<List<Map<String, Integer>>> findAlarmLogsRange(LocalDateTime startDate, LocalDateTime endDate) {
+        User user = UserHolder.getUser();
+        Integer elderId = user.getElderId();
+        List<Map<String, Integer>> map = elderDao.countAlarmsByTypeInRange(elderId,startDate,endDate);
+        return Result.success(Message.SUCCESS,map);
     }
 }

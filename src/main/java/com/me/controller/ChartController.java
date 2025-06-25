@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -87,5 +88,14 @@ public class ChartController{
         startDate = startDate.toLocalDate().atStartOfDay();
         endDate = endDate.toLocalDate().atStartOfDay().plusDays(1);
         return chartService.findTurnOverRange(startDate, endDate);
+    }
+
+    @GetMapping("/alarm-logs")
+    public Result<List<Map<String, Integer>>> findAlarmLogsRange(
+            @RequestParam("startDate") LocalDateTime startDate,
+            @RequestParam("endDate") LocalDateTime endDate) {
+        startDate = startDate.toLocalDate().atStartOfDay();
+        endDate = endDate.toLocalDate().atStartOfDay().plusDays(1);
+        return chartService.findAlarmLogsRange(startDate, endDate);
     }
 }

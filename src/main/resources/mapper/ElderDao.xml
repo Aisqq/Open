@@ -210,4 +210,19 @@
         ORDER BY
             date ASC
     </select>
+
+
+
+
+    <select id="countAlarmsByTypeInRange" resultType="map">
+        SELECT
+        alarm_type AS type,
+        COUNT(*) AS count
+        FROM tb_alarm_log
+        WHERE
+            elder_id = #{elderId}
+        AND alarm_time BETWEEN #{startDate} AND #{endDate}
+        GROUP BY alarm_type
+        ORDER BY count DESC
+    </select>
 </mapper>

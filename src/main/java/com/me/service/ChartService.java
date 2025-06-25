@@ -5,6 +5,7 @@ import com.me.vo.record.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface ChartService {
     Result<List<WaterUsageRecord>> findWaterUsageRange(LocalDateTime startDate, LocalDateTime endDate);
@@ -18,4 +19,6 @@ public interface ChartService {
     Result<List<SmogLevelRecord>> findSmogLevelRange(LocalDateTime startDate, LocalDateTime endDate);
 
     Result<List<TurnOverRecord>> findTurnOverRange(LocalDateTime startDate, LocalDateTime endDate);
+
+    Result<List<Map<String, Integer>>> findAlarmLogsRange(LocalDateTime startDate, LocalDateTime endDate);
 }

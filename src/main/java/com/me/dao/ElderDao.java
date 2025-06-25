@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface ElderDao {
 
@@ -113,4 +114,9 @@ public interface ElderDao {
             @Param("endDate") LocalDateTime endDate);
 
 
+
+    List<Map<String, Integer>> countAlarmsByTypeInRange(
+            @Param("elderId") Integer elderId,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate);
 }

@@ -1,7 +1,5 @@
 package com.me.controller;
 
-import com.me.entity.AlarmLog;
-import com.me.entity.Elder;
 import com.me.service.AlarmLogService;
 import com.me.utils.PageResult;
 import com.me.vo.ElderVo;
@@ -20,7 +18,6 @@ import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
