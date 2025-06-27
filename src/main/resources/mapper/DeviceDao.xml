@@ -41,4 +41,8 @@
         FROM tb_device
         WHERE elder_id = #{id}
     </select>
+
+    <select id="findById" parameterType="String" resultType="com.me.entity.Device">
+        select * from tb_device where device_id = #{deviceId}
+    </select>
 </mapper>
