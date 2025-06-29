@@ -33,4 +33,6 @@ public interface UserService {
     Result<ElderVo> getElder();
 
     Result<UserVo> getUser();
+
+    Result<String> edit(User user);
 }

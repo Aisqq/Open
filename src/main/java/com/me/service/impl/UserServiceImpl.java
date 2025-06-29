@@ -152,4 +152,14 @@ public class UserServiceImpl  implements UserService {
         userVo.setPhone(user.getPhone());
         return Result.success(Message.SUCCESS,userVo);
     }
+
+    @Override
+    public Result<String> edit(User user) {
+        user.setUserId(UserHolder.getUser().getUserId());
+        if(user.getPhone()==null||userDao.findUserByUsername(user.getUsername())!=null||userDao.findUserByPhone(user.getPhone())!=null){
+            return Result.error(Message.ERROR);
+        }
+        userDao.update(user);
+        return Result.success(Message.SUCCESS);
+    }
 }

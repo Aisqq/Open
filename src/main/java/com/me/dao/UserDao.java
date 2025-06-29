@@ -33,4 +33,8 @@ public interface UserDao {
             "</script>"
     })
     void update(User user);
+
+
+    @Select("select * from tb_user where user_id = #{userId}")
+    User findUserById(Integer userId);
 }

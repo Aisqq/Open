@@ -141,4 +141,8 @@ public class UserController {
     public Result<UserVo> getUser(){
         return userService.getUser();
     }
+    @PutMapping("/editUser")
+    public Result<String> editUser(@RequestBody User user){
+        return userService.edit(user);
+    }
 }
