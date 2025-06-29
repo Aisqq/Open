@@ -17,4 +17,19 @@ public class Message {
     public static final String UPLOAD_ERROR = "上传失败";
     public static final String UPDATE_SUCCESS = "更新信息成功";
     public static final String UPDATE_ERROR = "更新信息失败";
+
+
+    public static final String TEMP_NAME = "温度传感器";
+    public static final String HOME_NAME = "红外传感器（回家）";
+    public static final String OUT_NAME = "红外传感器（出门）";
+    public static final String SMOG_NAME = "烟雾传感器";
+    public static final String SLEEP_NAME = "压力传感器";
+    public static final String WATER_NAME = "水流速仪传感器";
+
+    public static final String TEMP_REASON = "老人当天温度异常！";
+    public static final String HOME_REASON = "老人当天外出情况异常！";
+    public static final String OUT_REASON = "老人当天外出情况异常！";
+    public static final String SMOG_REASON = "家中当天烟雾浓度异常！";
+    public static final String SLEEP_REASON = "老人当天睡眠情况异常！";
+    public static final String WATER_REASON = "老人当天用水异常！";
 }

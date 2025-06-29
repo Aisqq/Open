@@ -7,6 +7,7 @@ import com.me.interceptor.LoginInterceptor;
 import com.me.interceptor.RefreshTokenInterceptor;
 import com.me.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
@@ -29,7 +30,7 @@ public class MvcConfig implements WebMvcConfigurer {
                 .order(2);
     }
     @Override
-    public void addFormatters(FormatterRegistry registry) {
+    public void addFormatters(@NotNull FormatterRegistry registry) {
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
         registrar.setDateTimeFormatter(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         registrar.registerFormatters(registry);

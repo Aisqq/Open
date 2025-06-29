@@ -45,4 +45,8 @@
     <select id="findById" parameterType="String" resultType="com.me.entity.Device">
         select * from tb_device where device_id = #{deviceId}
     </select>
+
+    <select id="findAll"  resultType="com.me.entity.Device">
+        select * from tb_device
+    </select>
 </mapper>

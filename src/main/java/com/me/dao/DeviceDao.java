@@ -11,4 +11,6 @@ public interface DeviceDao {
     List<Device> findByElderId(Integer id);
 
     Device findById(String deviceId);
+
+    List<Device> findAll();
 }

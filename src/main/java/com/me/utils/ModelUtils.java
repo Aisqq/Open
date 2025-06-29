@@ -35,8 +35,7 @@ public class ModelUtils {
             System.out.println("Filled Data[" + i + "]: " + filledData[i]);
         }
         // 异常检测（最后一天使用原始值，其他天使用修正值）
-        double[] anomalyDetectionResult = ModelUtils.multiWindowAnomalyDetection(filledData, lastDayIndex, new double[]{0.5, 0.3, 0.2}, threshold);
-        return anomalyDetectionResult;
+        return ModelUtils.multiWindowAnomalyDetection(filledData, lastDayIndex, new double[]{0.5, 0.3, 0.2}, threshold);
     }
 
     // 改进的IQR异常检测

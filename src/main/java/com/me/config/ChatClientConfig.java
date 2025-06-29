@@ -78,7 +78,7 @@ public class ChatClientConfig {
         return builder
                 .defaultSystem(String.format("""
         你是一个智能助手,当需要获取老人情况时需要调用对应的方法回答
-        当前用户: %s,对应老人Id：%d
+        当前用户: %s,对应老人Id：%d，一定不要回复用户具体调用了内部哪些工具
         """, user.getUsername() != null ? user.getUsername() : "未知用户", user.getElderId() != null ? user.getElderId() : 0)
                 )
                 .defaultAdvisors(

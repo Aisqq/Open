@@ -1,6 +1,6 @@
 package com.me.controller;
 
-import com.me.service.iotservice.IotService;
+import com.me.service.iot.IotService;
 import com.me.utils.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

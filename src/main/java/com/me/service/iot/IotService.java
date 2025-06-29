@@ -1,4 +1,4 @@
-package com.me.service.iotservice;
+package com.me.service.iot;
 
 import com.huaweicloud.sdk.core.auth.AbstractCredentials;
 import com.huaweicloud.sdk.core.auth.BasicCredentials;

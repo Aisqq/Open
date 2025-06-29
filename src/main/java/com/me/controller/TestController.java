@@ -1,17 +1,14 @@
 package com.me.controller;
 
 
-import com.me.service.AnalyzeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@Transactional
 @RequestMapping("/api/test")
 public class TestController {
-    private final AnalyzeService analyzeService;
-    @GetMapping ("/t1")
-    public double t1(@RequestParam String deviceId){
-        return analyzeService.analyze(deviceId);
-    }
+
 }

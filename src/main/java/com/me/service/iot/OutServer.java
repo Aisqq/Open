@@ -1,4 +1,4 @@
-package com.me.service.iotservice;
+package com.me.service.iot;
 
 
 import com.me.dao.OutDao;
