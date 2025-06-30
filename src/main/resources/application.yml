@@ -46,10 +46,10 @@ jwt:
   expiration: 86400
 
 amqp:
-  accessKey: 4qN4LITx
-  password: ofrspNrdii3W887VAvCoX9IktXWdZoqa
-  baseUrl: 1b177f15b8.st1.iotda-app.cn-north-4.myhuaweicloud.com
-  queueName: DefaultQueue
+  accessKey: rF3ahZoQ
+  password: CsQTYX7bom4XoX76OeuGb9pNVFRp6rz3
+  baseUrl: a4fb017859.st1.iotda-app.cn-north-4.myhuaweicloud.com
+  queueName: Intelligent_queue
 
 
 logging:

@@ -19,7 +19,6 @@ import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -142,7 +141,7 @@ public class UserController {
         return userService.getUser();
     }
     @PutMapping("/editUser")
-    public Result<String> editUser(@RequestBody User user){
-        return userService.edit(user);
+    public Result<String> editUser(@Valid @RequestBody User user,HttpServletResponse response){
+        return userService.edit(user,response);
     }
 }

@@ -41,6 +41,8 @@ public class UserServiceImpl  implements UserService {
         }else {
             user = userDao.findUserByUsername(userLogin.getUsername());
         }
+        if(user==null)
+            return Result.error("用户不存在");
         if(!bCryptPasswordEncoder.matches(userLogin.getPassword(),user.getPassword())){
             return Result.error(Message.LOGIN_ERROR);
         }
@@ -154,12 +156,21 @@ public class UserServiceImpl  implements UserService {
     }
 
     @Override
-    public Result<String> edit(User user) {
-        user.setUserId(UserHolder.getUser().getUserId());
-        if(user.getPhone()==null||userDao.findUserByUsername(user.getUsername())!=null||userDao.findUserByPhone(user.getPhone())!=null){
-            return Result.error(Message.ERROR);
+    public Result<String> edit(User user,HttpServletResponse response) {
+        User userHolder = UserHolder.getUser();
+        user.setUserId(userHolder.getUserId());
+        if(!userHolder.getPhone().equals(user.getPhone())){
+            User userByPhone = userDao.findUserByPhone(user.getPhone());
+            if(userByPhone!=null)return Result.error("用户手机号已被注册");
+        }
+        if(!userHolder.getUsername().equals(user.getUsername())){
+            User userByName = userDao.findUserByUsername(user.getUsername());
+            if(userByName!=null)return Result.error("用户名已被使用");
         }
         userDao.update(user);
+        String jwtString =jwtTokenUtil.generateToken(user);
+        Cookie newCookie = CookieUtil.createJwtCookie(jwtString);
+        response.addCookie(newCookie);
         return Result.success(Message.SUCCESS);
     }
 }

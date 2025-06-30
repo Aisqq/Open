@@ -63,6 +63,7 @@ public class AmqpService {
         executorService.submit(() -> {
             try {
                 String mesStr = message.getBody(String.class);
+                log.info(mesStr);
                 JSONObject jsonObject = JSON.parseObject(mesStr);
                 JSONObject notifyData = jsonObject.getJSONObject("notify_data");
                 JSONObject body = notifyData.getJSONObject("body");

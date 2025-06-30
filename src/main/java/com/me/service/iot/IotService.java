@@ -18,8 +18,8 @@ public class IotService {
     private String ak = "HPUACEVJDUKJBISQOI3C";//System.getenv("CLOUD_SDK_AK");
     private String sk = "oxf4p6XE6Ms06efkI6qD74FcAGtarSkYKZ4ajBdI";//System.getenv("CLOUD_SDK_SK");
     private String iotdaEndpoint = "1b177f15b8.st1.iotda-app.cn-north-4.myhuaweicloud.com";
+    private final String deviceId = "684fd5a6d582f2001831e667_myNodeId2";
     public void sendMessage(String context){
-        String deviceId = "684fd5a6d582f2001831e667_myNodeId2";
         ICredential auth = new BasicCredentials()
                 .withDerivedPredicate(AbstractCredentials.DEFAULT_DERIVED_PREDICATE)
                 .withAk(ak)
