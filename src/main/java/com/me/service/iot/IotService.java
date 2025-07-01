@@ -11,14 +11,19 @@ import com.huaweicloud.sdk.iotda.v5.IoTDAClient;
 import com.huaweicloud.sdk.iotda.v5.model.CreateMessageRequest;
 import com.huaweicloud.sdk.iotda.v5.model.CreateMessageResponse;
 import com.huaweicloud.sdk.iotda.v5.model.DeviceMessageRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class IotService {
-    private String ak = "HPUACEVJDUKJBISQOI3C";//System.getenv("CLOUD_SDK_AK");
-    private String sk = "oxf4p6XE6Ms06efkI6qD74FcAGtarSkYKZ4ajBdI";//System.getenv("CLOUD_SDK_SK");
-    private String iotdaEndpoint = "1b177f15b8.st1.iotda-app.cn-north-4.myhuaweicloud.com";
-    private final String deviceId = "684fd5a6d582f2001831e667_myNodeId2";
+    @Value("${iot.ak}")
+    private String ak ;
+    @Value("${iot.sk}")
+    private String sk ;
+    @Value("${iot.url}")
+    private String iotdaEndpoint ;
+    @Value("iot.deviceId")
+    private String deviceId;
     public void sendMessage(String context){
         ICredential auth = new BasicCredentials()
                 .withDerivedPredicate(AbstractCredentials.DEFAULT_DERIVED_PREDICATE)

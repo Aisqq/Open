@@ -26,6 +26,8 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String origin = request.getHeader("Origin");
+        log.info("origin:"+origin);
         Cookie[] cookies = request.getCookies();
         String token = null;
         if (cookies != null) {

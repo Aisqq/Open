@@ -57,4 +57,10 @@ logging:
     # MyBatis日志
     com.me.dao: DEBUG
 
+iot:
+  ak: HPUACEVJDUKJBISQOI3C
+  sk: oxf4p6XE6Ms06efkI6qD74FcAGtarSkYKZ4ajBdI
+  url: 1b177f15b8.st1.iotda-app.cn-north-4.myhuaweicloud.com
+  deviceId: 684fd5a6d582f2001831e667_myNodeId2
+
 
