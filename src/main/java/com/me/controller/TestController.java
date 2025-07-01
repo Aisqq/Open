@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 
-@Role("admin")
 
 @RequiredArgsConstructor
 @RestController
@@ -21,6 +20,7 @@ public class TestController {
         return "hello";
     }
 
+    @Role("admin")
     @GetMapping("/t2")
     public String hello2(){
         return "hello1";

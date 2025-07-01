@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
-
 import java.util.Date;
 import java.util.Objects;
 
@@ -26,8 +25,8 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String origin = request.getHeader("Origin");
-        log.info("origin:"+origin);
+        String clientIp = getClientIpAddress(request);
+        log.info("Client IP: {}", clientIp);
         Cookie[] cookies = request.getCookies();
         String token = null;
         if (cookies != null) {
@@ -78,10 +77,31 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
+
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         if(UserHolder.getUser()!=null){
             UserHolder.removeUser();
         }
+    }
+
+    /**
+     * 获取发起请求ip地址
+     * @param request
+     * @return ip
+     */
+    private String getClientIpAddress(HttpServletRequest request) {
+        // 检查代理服务器常用的XFF头
+        String xffHeader = request.getHeader("X-Forwarded-For");
+        if (xffHeader != null && !xffHeader.isEmpty()) {
+            return xffHeader.split(",")[0].trim();
+        }
+        // 检查其他代理头
+        String realIp = request.getHeader("X-Real-IP");
+        if (realIp != null && !realIp.isEmpty()) {
+            return realIp;
+        }
+        // 没有代理头时，使用原始方法（直接连接）
+        return request.getRemoteAddr();
     }
 }
