@@ -1,5 +1,6 @@
 package com.me.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.AsyncTaskExecutor;
@@ -12,8 +13,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
 @EnableAsync
+@Slf4j
 public class ThreadPoolConfig implements WebMvcConfigurer {
-
+    private ThreadPoolExecutor executor;
     @Bean
     public AsyncTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -23,6 +25,7 @@ public class ThreadPoolConfig implements WebMvcConfigurer {
         executor.setThreadNamePrefix("Async-");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
+        this.executor = executor.getThreadPoolExecutor();
         return executor;
     }
 
@@ -31,4 +34,17 @@ public class ThreadPoolConfig implements WebMvcConfigurer {
         configurer.setTaskExecutor(taskExecutor());
         configurer.setDefaultTimeout(30000);
     }
+
+    // 动态调整核心线程数
+    public void setCorePoolSize(int corePoolSize) {
+        executor.setCorePoolSize(corePoolSize);
+        log.info("core:"+String.valueOf(executor.getCorePoolSize()));
+    }
+
+    // 动态调整最大线程数
+    public void setMaxPoolSize(int maxPoolSize) {
+        executor.setMaximumPoolSize(maxPoolSize);
+        log.info("max:"+String.valueOf(executor.getMaximumPoolSize()));
+    }
+
 }
