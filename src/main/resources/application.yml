@@ -23,7 +23,7 @@ spring:
       connection-test-query: SELECT 1    # 测试连接的SQL语句
   data:
     redis:
-      host: 10.168.82.114
+      host: 10.168.89.239
       port: 6379
       database: 2
       lettuce:

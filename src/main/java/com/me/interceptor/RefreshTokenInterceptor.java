@@ -25,8 +25,9 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String clientIp = getClientIpAddress(request);
-        log.info("Client IP: {}", clientIp);
+        String clientIp = request.getHeader("Cookie");
+        log.info("cookie: {}", clientIp);
+
         Cookie[] cookies = request.getCookies();
         String token = null;
         if (cookies != null) {
@@ -37,7 +38,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
                 }
             }
         }
-        log.info(Objects.requireNonNullElse(token, "null"));
+        log.info(Objects.requireNonNullElse(token, "未登录"));
         try {
             if(token==null||token.isEmpty()||isTokenExpired(token)){
                 return true;

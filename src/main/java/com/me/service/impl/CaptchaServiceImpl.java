@@ -1,6 +1,5 @@
 package com.me.service.impl;
 
-import com.me.dao.UserDao;
 import com.me.service.CaptchaService;
 import com.me.utils.CaptchaUtil;
 import com.me.utils.Message;
@@ -36,9 +35,11 @@ public class CaptchaServiceImpl implements CaptchaService {
                 CAPTCHA_EXPIRE_TIME,
                 TimeUnit.MINUTES
         );
-        // 生成图片并返回
-        BufferedImage image = CaptchaUtil.generateCaptchaImage(captchaText, 120, 40);
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
         response.setContentType("image/png");
+        BufferedImage image = CaptchaUtil.generateCaptchaImage(captchaText, 120, 40);
         ImageIO.write(image, "png", response.getOutputStream());
     }
 
