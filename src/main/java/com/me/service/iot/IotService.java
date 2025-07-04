@@ -13,8 +13,10 @@ import com.huaweicloud.sdk.iotda.v5.model.CreateMessageResponse;
 import com.huaweicloud.sdk.iotda.v5.model.DeviceMessageRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class IotService {
     @Value("${iot.ak}")
     private String ak ;

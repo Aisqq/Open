@@ -48,7 +48,6 @@
         WHERE alarm_id = #{alarmId}
     </update>
 
-
     <insert id="add" parameterType="com.me.entity.AlarmLog" useGeneratedKeys="true" keyProperty="alarmId">
         INSERT INTO tb_alarm_log
             (elder_id, alarm_type, reason, alarm_time, status)

@@ -2,11 +2,14 @@ package com.me.service.analyze;
 
 import com.me.dao.AlarmLogDao;
 import com.me.dao.ElderDao;
+import com.me.dao.UserDao;
 import com.me.entity.AlarmLog;
 import com.me.entity.Device;
+import com.me.entity.User;
 import com.me.service.AnalyzeService;
 import com.me.utils.Message;
 import com.me.utils.ModelUtils;
+import com.me.utils.SseSendUtil;
 import com.me.vo.record.HomeTimesRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,7 @@ import java.util.List;
 public class HomeAnalyze implements AnalyzeService {
     private final ElderDao elderDao;
     private final AlarmLogDao alarmLogDao;
+    private final UserDao userDao;
     private final String homeName = Message.HOME_NAME;
     @Override
     public boolean findDeviceType(String deviceName) {
@@ -46,6 +50,8 @@ public class HomeAnalyze implements AnalyzeService {
             alarmLog.setAlarmType(homeName);
             alarmLog.setReason(Message.HOME_REASON);
             alarmLogDao.add(alarmLog);
+            Integer userId = userDao.findByElderId(device.getElderId()).getUserId();
+            SseSendUtil.SseSend(userId,"老人数据异常，回家次数："+records.get(records.size()-1).getHomeTimes());
         }
     }
 }

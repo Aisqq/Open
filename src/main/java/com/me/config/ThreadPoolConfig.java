@@ -4,14 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.AsyncTaskExecutor;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
-@EnableAsync
+
 @Slf4j
 public class ThreadPoolConfig implements WebMvcConfigurer {
     private ThreadPoolExecutor executor;
@@ -35,13 +34,13 @@ public class ThreadPoolConfig implements WebMvcConfigurer {
     }
 
     // 动态调整核心线程数
-    public void setCorePoolSize(int corePoolSize) {
+    public synchronized void setCorePoolSize(int corePoolSize) {
         executor.setCorePoolSize(corePoolSize);
         log.info("core:"+String.valueOf(executor.getCorePoolSize()));
     }
 
     // 动态调整最大线程数
-    public void setMaxPoolSize(int maxPoolSize) {
+    public synchronized void setMaxPoolSize(int maxPoolSize) {
         executor.setMaximumPoolSize(maxPoolSize);
         log.info("max:"+String.valueOf(executor.getMaximumPoolSize()));
     }

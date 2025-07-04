@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.jms.*;
 import java.net.URI;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional
 public class AmqpService {
     @Autowired
     private List<IotDeviceServer> iotDeviceServers;

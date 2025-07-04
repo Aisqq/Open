@@ -2,11 +2,13 @@ package com.me.service.analyze;
 
 import com.me.dao.AlarmLogDao;
 import com.me.dao.ElderDao;
+import com.me.dao.UserDao;
 import com.me.entity.AlarmLog;
 import com.me.entity.Device;
 import com.me.service.AnalyzeService;
 import com.me.utils.Message;
 import com.me.utils.ModelUtils;
+import com.me.utils.SseSendUtil;
 import com.me.vo.record.OutTimesRecord;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ public class OutAnalyze implements AnalyzeService {
     private final ElderDao elderDao;
     private final AlarmLogDao alarmLogDao;
     private final String outName = Message.OUT_NAME;
+    private final UserDao userDao;
     @Override
     public boolean findDeviceType(String deviceName) {
         return outName.equals(deviceName);
@@ -45,6 +48,8 @@ public class OutAnalyze implements AnalyzeService {
             alarmLog.setAlarmType(outName);
             alarmLog.setReason(Message.OUT_REASON);
             alarmLogDao.add(alarmLog);
+            Integer userId = userDao.findByElderId(device.getElderId()).getUserId();
+            SseSendUtil.SseSend(userId,"老人数据异常，外出次数："+records.get(records.size()-1).getOutTimes());
         }
     }
 }

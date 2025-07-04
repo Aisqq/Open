@@ -53,6 +53,9 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
             user = userDao.findUserByUsername(username);
         }
         if(user!=null&&jwtTokenUtil.validateToken(token,user)){
+            if(UserHolder.getUser()!=null){
+                log.error("数据异常"+UserHolder.getUser().getUsername());
+            }
             UserHolder.saveUser(user);
             Date expiration = jwtTokenUtil.getExpirationDateFromToken(token);
             long remainingTime = expiration.getTime() - System.currentTimeMillis();
@@ -82,6 +85,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         if(UserHolder.getUser()!=null){
+            log.info("拦截器清理用户信息");
             UserHolder.removeUser();
         }
     }

@@ -25,9 +25,6 @@ public class PermissionAspect {
             Class<?> targetClass = joinPoint.getTarget().getClass();
             role = targetClass.getAnnotation(Role.class);
         }
-        if (role == null) {
-            throw new SecurityException("缺少权限注解");
-        }
         String permission = role.value();
         if (!hasPermission(permission)) {
             throw new SecurityException("权限不足，无法执行该操作：" + permission);

@@ -37,4 +37,7 @@ public interface UserDao {
 
     @Select("select * from tb_user where user_id = #{userId}")
     User findUserById(Integer userId);
+
+    @Select("select * from tb_user where elder_id = #{elderId} limit 1")
+    User findByElderId(Integer elderId);
 }
