@@ -33,13 +33,13 @@ public class ThreadPoolConfig implements WebMvcConfigurer {
         configurer.setDefaultTimeout(30000);
     }
 
-    // 动态调整核心线程数
+
     public synchronized void setCorePoolSize(int corePoolSize) {
         executor.setCorePoolSize(corePoolSize);
         log.info("core:"+String.valueOf(executor.getCorePoolSize()));
     }
 
-    // 动态调整最大线程数
+
     public synchronized void setMaxPoolSize(int maxPoolSize) {
         executor.setMaximumPoolSize(maxPoolSize);
         log.info("max:"+String.valueOf(executor.getMaximumPoolSize()));

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>添加设备数据</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            z-index: 9999;
+            display: none;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>传感器类型</th>
+        <th>输入值</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>温度传感器</td>
+        <td><input type="text" id="tempInput"></td>
+        <td><button onclick="sendData('temp', '105', 'tempInput')">上传数据</button></td>
+    </tr>
+    <tr>
+        <td>压力传感器</td>
+        <td><input type="text" id="pressureInput"></td>
+        <td><button onclick="sendData('sleep', '108', 'pressureInput')">上传数据</button></td>
+    </tr>
+    <tr>
+        <td>红外传感器（回家）</td>
+        <td></td>
+        <td><button onclick="sendData('home', '101')">上传数据</button></td>
+    </tr>
+    <tr>
+        <td>红外传感器（出门）</td>
+        <td></td>
+        <td><button onclick="sendData('out', '107')">上传数据</button></td>
+    </tr>
+    <tr>
+        <td>烟雾传感器</td>
+        <td><input type="text" id="smogInput"></td>
+        <td><button onclick="sendData('smog', '222', 'smogInput')">上传数据</button></td>
+    </tr>
+    <tr>
+        <td>水流速仪传感器</td>
+        <td><input type="text" id="waterInput"></td>
+        <td><button onclick="sendData('water', '109', 'waterInput')">上传数据</button></td>
+    </tr>
+    </tbody>
+</table>
+
+<div id="toast">提示信息</div>
+
+<script>
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 2000);
+    }
+
+    function sendData(deviceType, deviceId, inputId) {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const timezoneOffset = -now.getTimezoneOffset();
+        const timezoneSign = timezoneOffset >= 0 ? '+' : '-';
+        const timezoneHours = String(Math.floor(Math.abs(timezoneOffset) / 60)).padStart(2, '0');
+        const timezoneMinutes = String(Math.abs(timezoneOffset) % 60).padStart(2, '0');
+
+        const recordTime = `${year}${month}${day}T${hours}${minutes}${seconds}${timezoneSign}${timezoneHours}${timezoneMinutes}`;
+
+        let extraValue;
+        if (inputId) {
+            extraValue = document.getElementById(inputId).value;
+            if (!extraValue) {
+                showToast('请输入数据值');
+                return;
+            }
+        } else {
+            extraValue = null;
+        }
+
+        let key;
+        switch (deviceType) {
+            case 'temp':
+                key = 'temperature';
+                break;
+            case 'sleep':
+                key = 'sleep';
+                break;
+            case 'smog':
+                key = 'smog';
+                break;
+            case 'water':
+                key = 'water';
+                break;
+            default:
+                key = null;
+        }
+
+        const data = {
+            type: deviceType,
+            deviceId: deviceId,
+            recordTime: recordTime
+        };
+
+        if (extraValue !== null && key) {
+            data[key] = extraValue;
+        }
+
+        fetch('/api/test/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.flag) {
+                    showToast('数据添加成功');
+                } else {
+                    showToast('数据添加失败: ' + result.message);
+                }
+            })
+            .catch(error => {
+                showToast('请求出错: ' + error.message);
+            });
+    }
+</script>
+</body>
+
+</html>

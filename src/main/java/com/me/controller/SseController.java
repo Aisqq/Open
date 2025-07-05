@@ -11,10 +11,16 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/api/sse")
 public class SseController {
     public static final Map<String ,SseEmitter>  sseEmitterMap = new ConcurrentHashMap<>();
-    @GetMapping(path = "/sse/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+
+    /**
+     * 推送数据给在线用户
+     * @param id 用户id
+     * @return
+     */
+    @GetMapping(path = "/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamSseMvc(@PathVariable("id") String id) {
         SseEmitter emitter = sseEmitterMap.get(id);
         if(Objects.isNull(emitter)){

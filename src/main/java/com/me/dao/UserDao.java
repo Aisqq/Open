@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 public interface UserDao {
     @Select("select * from tb_user where username = #{username}")
     User findUserByUsername(String username);
@@ -38,6 +40,6 @@ public interface UserDao {
     @Select("select * from tb_user where user_id = #{userId}")
     User findUserById(Integer userId);
 
-    @Select("select * from tb_user where elder_id = #{elderId} limit 1")
-    User findByElderId(Integer elderId);
+    @Select("select user_id from tb_user where elder_id = #{elderId}")
+    List<Integer> findUserIdByElderId(Integer elderId);
 }

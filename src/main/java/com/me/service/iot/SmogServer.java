@@ -35,11 +35,16 @@ public class SmogServer implements IotDeviceServer {
      */
     @Override
     public void addData(Map<String, Object> map) {
+        log.info(map.toString());
         Smog smog = new Smog();
-        smog.setSmogLever((BigDecimal) map.get("smog"));
+        smog.setSmogLever(new BigDecimal((String) map.get("smog")));
         smog.setRecordTime(TimeUtil.stringToLocalDateTime((String) map.get("recordTime")));
         smog.setDeviceId((String) map.get("deviceId"));
-        smog.setAlarm((Integer) map.get("alarm"));
+        //smog.setAlarm((Integer) map.get("alarm"));
+        if(smog.getSmogLever().compareTo(new BigDecimal(100))<=0)
+            smog.setAlarm(0);
+        else
+            smog.setAlarm(1);
         LocalDateTime startOfDay = smog.getRecordTime().toLocalDate().atStartOfDay();
         LocalDateTime endOfDay = smog.getRecordTime().toLocalDate().atTime(LocalTime.MAX);
         Smog findSmog = smogDao.getLatestByDeviceIdAndDate(smog.getDeviceId(),startOfDay,endOfDay);
@@ -47,7 +52,7 @@ public class SmogServer implements IotDeviceServer {
             smogDao.add(smog);
         }else {
             smog.setSmogId(findSmog.getSmogId());
-            if(findSmog.getAlarm()!=0)smog.setAlarm(findSmog.getAlarm());
+            if(findSmog.getAlarm()!=null)smog.setAlarm(findSmog.getAlarm());
             smogDao.updateById(smog);
         }
         log.info("烟雾数据:"+smog);

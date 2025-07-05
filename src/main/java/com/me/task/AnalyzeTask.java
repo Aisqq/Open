@@ -54,9 +54,8 @@ public class AnalyzeTask {
     /**
      * 每小时分析温度和烟雾浓度
      */
-
     //@Scheduled(cron = "0 * * * * ?")//测试1分钟
-    @Scheduled(cron = "0 0 * * * ?")
+      @Scheduled(cron = "0 0 * * * ?")
     public void analyzeTask() {
         LocalDateTime endDate = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
         LocalDateTime startDate = endDate.plusDays(-30);

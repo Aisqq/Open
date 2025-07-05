@@ -24,6 +24,7 @@ public class HomeServer implements IotDeviceServer {
 
     @Override
     public void addData(Map<String, Object> map) {
+        log.info(map.toString());
         Home home  = new Home();
         home.setDeviceId((String) map.get("deviceId"));
         home.setHomeTime(TimeUtil.stringToLocalDateTime((String) map.get("recordTime")));

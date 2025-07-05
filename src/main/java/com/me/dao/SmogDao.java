@@ -7,14 +7,14 @@ import java.time.LocalDateTime;
 
 public interface SmogDao {
 
-    @Insert("INSERT INTO tb_smog (device_id, smog_level, alarm, record_time) " +
+    @Insert("INSERT INTO tb_smog (device_id, smog_level, is_alarm, record_time) " +
             "VALUES (#{deviceId}, #{smogLever}, #{alarm}, #{recordTime})")
     @Options(useGeneratedKeys = true, keyProperty = "smogId", keyColumn = "smog_id")
     void add(Smog smog);
 
     @Update("UPDATE tb_smog " +
             "SET smog_level = #{smogLever}, " +
-            "alarm = #{alarm}, " +
+            "is_alarm = #{alarm}, " +
             "record_time = #{recordTime} " +
             "WHERE smog_id = #{smogId}")
     void updateById(Smog smog);

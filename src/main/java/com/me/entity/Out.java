@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Out {
-    private Integer homeId;
+    private Integer outId;
     private String  deviceId;
     private LocalDateTime outTime;
 }

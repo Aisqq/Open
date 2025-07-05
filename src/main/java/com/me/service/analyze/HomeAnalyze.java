@@ -50,8 +50,9 @@ public class HomeAnalyze implements AnalyzeService {
             alarmLog.setAlarmType(homeName);
             alarmLog.setReason(Message.HOME_REASON);
             alarmLogDao.add(alarmLog);
-            Integer userId = userDao.findByElderId(device.getElderId()).getUserId();
-            SseSendUtil.SseSend(userId,"老人数据异常，回家次数："+records.get(records.size()-1).getHomeTimes());
+            List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
+            for(Integer userId:userIdList)
+                SseSendUtil.SseSend(userId,"老人数据异常，回家次数："+records.get(records.size()-1).getHomeTimes());
         }
     }
 }

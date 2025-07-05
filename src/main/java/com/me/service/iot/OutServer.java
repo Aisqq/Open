@@ -26,6 +26,7 @@ public class OutServer implements IotDeviceServer {
 
     @Override
     public void addData(Map<String, Object> map) {
+        log.info(map.toString());
         Out out = new Out();
         out.setDeviceId((String) map.get("deviceId"));
         out.setOutTime(TimeUtil.stringToLocalDateTime((String) map.get("recordTime")));

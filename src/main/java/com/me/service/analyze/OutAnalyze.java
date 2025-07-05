@@ -48,8 +48,9 @@ public class OutAnalyze implements AnalyzeService {
             alarmLog.setAlarmType(outName);
             alarmLog.setReason(Message.OUT_REASON);
             alarmLogDao.add(alarmLog);
-            Integer userId = userDao.findByElderId(device.getElderId()).getUserId();
-            SseSendUtil.SseSend(userId,"老人数据异常，外出次数："+records.get(records.size()-1).getOutTimes());
+            List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
+            for(Integer userId:userIdList)
+                SseSendUtil.SseSend(userId,"老人数据异常，外出次数："+records.get(records.size()-1).getOutTimes());
         }
     }
 }

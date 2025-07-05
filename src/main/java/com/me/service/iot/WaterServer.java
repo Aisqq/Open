@@ -26,8 +26,9 @@ public class WaterServer implements IotDeviceServer {
 
     @Override
     public void addData(Map<String, Object> map) {
+        log.info(map.toString());
         Water water = new Water();
-        water.setWaterUsage((BigDecimal)map.get("water"));
+        water.setWaterUsage(new BigDecimal((String)map.get("water")));
         if (water.getWaterUsage().compareTo(BigDecimal.ZERO) <= 0) return;
         water.setDeviceId((String) map.get("deviceId"));
         water.setRecordTime(TimeUtil.stringToLocalDateTime((String) map.get("recordTime")));
