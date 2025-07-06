@@ -1,7 +1,7 @@
 package com.me.config;
 
 import com.me.entity.User;
-import com.me.service.ToolsService;
+import com.me.service.ai.ToolsService;
 import com.me.utils.UserHolder;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;

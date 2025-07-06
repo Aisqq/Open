@@ -26,11 +26,13 @@ public class OutServer implements IotDeviceServer {
 
     @Override
     public void addData(Map<String, Object> map) {
+        log.info("out");
+        map.put("deviceId","107");
+        if(map.containsKey("out")&&(int)map.get("out")==0)return;
         log.info(map.toString());
         Out out = new Out();
         out.setDeviceId((String) map.get("deviceId"));
         out.setOutTime(TimeUtil.stringToLocalDateTime((String) map.get("recordTime")));
         outDao.add(out);
-        log.info("out"+out);
     }
 }

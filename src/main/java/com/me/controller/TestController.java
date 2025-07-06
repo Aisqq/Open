@@ -26,7 +26,6 @@ public class TestController {
     private List<IotDeviceServer> iotDeviceServers;
     private final UserDao userDao;
 
-
     @PostMapping("/add")
     public Result<String> addTemp(@RequestBody Map<String ,Object> map) {
         User user = userDao.findUserByUsername("user");

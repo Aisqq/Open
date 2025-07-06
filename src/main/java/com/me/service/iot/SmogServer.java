@@ -35,6 +35,7 @@ public class SmogServer implements IotDeviceServer {
      */
     @Override
     public void addData(Map<String, Object> map) {
+        map.put("deviceId","222");
         log.info(map.toString());
         Smog smog = new Smog();
         smog.setSmogLever(new BigDecimal((String) map.get("smog")));

@@ -32,6 +32,7 @@ public class TempServer implements IotDeviceServer {
      */
     @Override
     public void addData(Map<String, Object> map) {
+        map.put("deviceId","105");
         log.info(map.toString());
         Temp temp = new Temp();
         Object tempValue = map.get("temperature");

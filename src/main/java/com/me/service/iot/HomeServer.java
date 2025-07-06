@@ -24,11 +24,13 @@ public class HomeServer implements IotDeviceServer {
 
     @Override
     public void addData(Map<String, Object> map) {
+        log.info("home");
+        map.put("deviceId","101");
         log.info(map.toString());
-        Home home  = new Home();
+        if(map.containsKey("home")&&(int)map.get("home")==0)return;
+        Home home = new Home();
         home.setDeviceId((String) map.get("deviceId"));
         home.setHomeTime(TimeUtil.stringToLocalDateTime((String) map.get("recordTime")));
         homeDao.add(home);
-        log.info("home"+home);
     }
 }

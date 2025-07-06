@@ -2,14 +2,12 @@ package com.me.service.iot;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.me.service.IotDeviceServer;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.qpid.jms.JmsConnection;
 import org.apache.qpid.jms.JmsConnectionListener;
 import org.apache.qpid.jms.message.JmsInboundMessageDispatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import javax.jms.*;
 import java.net.URI;
 import java.util.List;
@@ -20,11 +18,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Service
-@Transactional
+@Slf4j
 public class AmqpService {
     @Autowired
     private List<IotDeviceServer> iotDeviceServers;
-    private static final Logger log = LoggerFactory.getLogger(AmqpService.class);
     private final Connection connection;
     private final Session session;
     private final Destination queue;
@@ -57,14 +54,16 @@ public class AmqpService {
 
     /**
      * event_time:数据记录时间->recordTime
-     * service_id：传感器类型->deviceType
-     * deviceId:设备唯一标识
      * @param message
      */
     private void processMessage(Message message) {
         executorService.submit(() -> {
+            String mesStr  = null;
             try {
-                String mesStr = message.getBody(String.class);
+                mesStr = message.getBody(String.class);
+            } catch (Exception e) {
+                log.error("处理消息异常", e);
+            }
                 log.info(mesStr);
                 JSONObject jsonObject = JSON.parseObject(mesStr);
                 JSONObject notifyData = jsonObject.getJSONObject("notify_data");
@@ -72,24 +71,13 @@ public class AmqpService {
                 List<Map> services = body.getJSONArray("services").toJavaList(Map.class);
                 if (!services.isEmpty()) {
                     Map<String, Object> service = services.get(0);
-                    System.out.println("Service ID: " + service.get("service_id"));
-                    System.out.println("Event Time: " + service.get("event_time"));
                     Map<String, Object> properties = (Map<String, Object>) service.get("properties");
-                    properties.put("deviceType", service.get("service_id"));
                     properties.put("recordTime", service.get("event_time"));
-                    System.out.println("\nProperties:");
                     for (IotDeviceServer iotDeviceServer : iotDeviceServers) {
-                        if (iotDeviceServer.findDeviceType((String) properties.get("deviceType"))) {
                             iotDeviceServer.addData(properties);
-                            break;
-                        }
                     }
                 }
-
                 log.info("接收到消息: {}", mesStr);
-            } catch (Exception e) {
-                log.error("处理消息异常", e);
-            }
         });
     }
 
@@ -154,7 +142,6 @@ public class AmqpService {
             }
         }
     };
-    // 关闭资源的方法
     public void shutdown() {
         try {
             if (consumer != null) consumer.close();

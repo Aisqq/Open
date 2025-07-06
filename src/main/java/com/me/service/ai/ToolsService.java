@@ -1,4 +1,4 @@
-package com.me.service;
+package com.me.service.ai;
 
 import com.me.dao.ElderDao;
 import lombok.RequiredArgsConstructor;
