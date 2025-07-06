@@ -19,7 +19,6 @@ public class ModelUtils {
         };*/
         // 获取最后一天的索引
         int lastDayIndex = data.length - 1;
-        System.out.println("Last Day Index: " + lastDayIndex);
         // 保存最后一天的数据
         double lastDayValue = data[lastDayIndex];
         // 将原始数据的最后一天设为NaN，这样在IQR检测和填充时不会处理它
@@ -30,10 +29,6 @@ public class ModelUtils {
         double[] filledData = ModelUtils.fillMissingValues(cleanedData);
         // 将最后一天的数据恢复
         filledData[lastDayIndex] = lastDayValue;
-        // 打印填充后的数据
-        for (int i = 0; i < filledData.length; i++) {
-            System.out.println("Filled Data[" + i + "]: " + filledData[i]);
-        }
         // 异常检测（最后一天使用原始值，其他天使用修正值）
         return ModelUtils.multiWindowAnomalyDetection(filledData, lastDayIndex, new double[]{0.5, 0.3, 0.2}, threshold);
     }

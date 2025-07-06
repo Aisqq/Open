@@ -49,8 +49,14 @@ public class WaterAnalyze implements AnalyzeService {
             alarmLog.setReason(Message.WATER_REASON);
             alarmLogDao.add(alarmLog);
             List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
-            for(Integer userId:userIdList)
-                SseSendUtil.SseSend(userId,"老人数据异常，今天用水："+records.get(records.size()-1).getWaterUsage());
+            for(Integer userId:userIdList){
+                try {
+                    SseSendUtil.SseSend(userId,"老人数据异常，今天用水："+records.get(records.size()-1).getWaterUsage());
+                }catch (Exception e){
+                    log.error("消息发送失败，用户ID: " + userId, e);
+                }
+            }
+
         }
     }
 }

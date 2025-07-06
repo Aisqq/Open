@@ -48,8 +48,13 @@ public class TempAnalyze implements AnalyzeService {
             alarmLog.setReason(Message.TEMP_REASON);
             alarmLogDao.add(alarmLog);
             List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
-            for(Integer userId:userIdList)
-                SseSendUtil.SseSend(userId,"老人数据异常，体温："+records.get(records.size()-1).getTemperature());
+            for(Integer userId:userIdList){
+                try {
+                    SseSendUtil.SseSend(userId,"老人数据异常，体温："+records.get(records.size()-1).getTemperature());
+                }catch (Exception e){
+                    log.error("消息发送失败，用户ID: " + userId, e);
+                }
+            }
         }
     }
 }

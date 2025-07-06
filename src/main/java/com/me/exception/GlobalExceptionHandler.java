@@ -1,6 +1,6 @@
 package com.me.exception;
 
-import com.me.utils.UserHolder; // 导入UserHolder
+import com.me.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,13 +17,11 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 处理权限不足异常
+
     @ExceptionHandler(SecurityException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public Map<String, Object> handleSecurityException(SecurityException ex) {
         log.error("权限不足异常: {}", ex.getMessage());
-        // 清理ThreadLocal
-        clearThreadLocal();
         return buildErrorResponse(403, "权限不足，无法执行该操作");
     }
 
@@ -31,8 +29,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Map<String, Object> handleNullPointerException(NullPointerException ex) {
         log.error("空引用: {}", ex.getMessage());
-        // 清理ThreadLocal
-        clearThreadLocal();
+
         return buildErrorResponse(502, "数据异常");
     }
 
@@ -41,8 +38,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handleConstraintViolationException(ConstraintViolationException ex) {
         log.error("参数校验异常: {}", ex.getMessage());
-        // 清理ThreadLocal
-        clearThreadLocal();
         return buildErrorResponse(400, "请求参数无效，请检查后重新提交");
     }
 
@@ -52,8 +47,6 @@ public class GlobalExceptionHandler {
     public Map<String, Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         log.error("参数校验异常: {}", ex.getMessage());
         String errorMessage = "请求参数无效，请检查后重新提交";
-        // 清理ThreadLocal
-        clearThreadLocal();
         return buildErrorResponse(400, errorMessage);
     }
 
@@ -63,8 +56,6 @@ public class GlobalExceptionHandler {
     public Map<String, Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         log.error("参数类型不匹配异常: {}", ex.getMessage());
         String errorMessage = "请求参数类型不匹配，请检查后重新提交";
-        // 清理ThreadLocal
-        clearThreadLocal();
         return buildErrorResponse(400, errorMessage);
     }
 
@@ -73,8 +64,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         log.error("请求体解析异常: {}", ex.getMessage());
-        // 清理ThreadLocal
-        clearThreadLocal();
         return buildErrorResponse(400, "请求体格式无效");
     }
 
@@ -83,8 +72,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handleException(Exception ex) {
         log.error("请求错误", ex);
-        // 清理ThreadLocal
-        clearThreadLocal();
         return buildErrorResponse(500, "服务器内部错误，请稍后再试");
     }
 
@@ -97,11 +84,4 @@ public class GlobalExceptionHandler {
         return response;
     }
 
-    private void clearThreadLocal() {
-        log.info("异常清理");
-        if (UserHolder.getUser() != null) {
-            UserHolder.removeUser();
-            log.debug("ThreadLocal中的用户信息已清理");
-        }
-    }
 }

@@ -84,6 +84,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        log.info("后置拦截器清理");
         if(UserHolder.getUser()!=null){
             log.info("拦截器清理用户信息");
             UserHolder.removeUser();
@@ -96,17 +97,14 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
      * @return ip
      */
     private String getClientIpAddress(HttpServletRequest request) {
-        // 检查代理服务器常用的XFF头
         String xffHeader = request.getHeader("X-Forwarded-For");
         if (xffHeader != null && !xffHeader.isEmpty()) {
             return xffHeader.split(",")[0].trim();
         }
-        // 检查其他代理头
         String realIp = request.getHeader("X-Real-IP");
         if (realIp != null && !realIp.isEmpty()) {
             return realIp;
         }
-        // 没有代理头时，使用原始方法（直接连接）
         return request.getRemoteAddr();
     }
 }

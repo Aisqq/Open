@@ -50,8 +50,14 @@ public class SmogAnalyze implements AnalyzeService {
             alarmLog.setReason(Message.SMOG_REASON);
             alarmLogDao.add(alarmLog);
             List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
-            for(Integer userId:userIdList)
-                SseSendUtil.SseSend(userId,"烟雾浓度数据异常，烟雾浓度："+records.get(records.size()-1).getAverageSmogLevel());
+            for(Integer userId:userIdList){
+                try {
+                    SseSendUtil.SseSend(userId,"烟雾浓度数据异常，烟雾浓度："+records.get(records.size()-1).getAverageSmogLevel());
+                }catch (Exception e){
+                    log.error("消息发送失败，用户ID: " + userId, e);
+                }
+            }
+
         }
     }
 }
