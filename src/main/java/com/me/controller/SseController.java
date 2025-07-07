@@ -1,6 +1,5 @@
 package com.me.controller;
 
-import com.me.entity.User;
 import com.me.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @RequestMapping("/api/sse")
 public class SseController {
+
     public static final Map<String ,SseEmitter>  sseEmitterMap = new ConcurrentHashMap<>();
 
     /**

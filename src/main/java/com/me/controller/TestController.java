@@ -1,7 +1,6 @@
 package com.me.controller;
 
 
-import com.me.annotation.Role;
 import com.me.dao.UserDao;
 import com.me.entity.User;
 import com.me.service.IotDeviceServer;
@@ -9,9 +8,11 @@ import com.me.utils.Message;
 import com.me.utils.Result;
 import com.me.utils.UserHolder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class TestController {
     @Autowired
     private List<IotDeviceServer> iotDeviceServers;
     private final UserDao userDao;
+    private final ChatClient chatClient;
 
     @PostMapping("/add")
     public Result<String> addTemp(@RequestBody Map<String ,Object> map) {
@@ -38,6 +40,14 @@ public class TestController {
             }
         }
         return Result.success(Message.SUCCESS);
+    }
+
+    @GetMapping(value = "/ask",produces = "text/plain;charset=utf-8")
+    public Flux<String> generateStreamChat(@RequestParam("message") String message) {
+        return chatClient.prompt()
+                .user(message)
+                .stream()
+                .content();
     }
 }
 

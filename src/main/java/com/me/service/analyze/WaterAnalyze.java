@@ -6,6 +6,7 @@ import com.me.dao.UserDao;
 import com.me.entity.AlarmLog;
 import com.me.entity.Device;
 import com.me.service.AnalyzeService;
+import com.me.utils.BigDecimalUtils;
 import com.me.utils.Message;
 import com.me.utils.ModelUtils;
 import com.me.utils.SseSendUtil;
@@ -51,7 +52,7 @@ public class WaterAnalyze implements AnalyzeService {
             List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
             for(Integer userId:userIdList){
                 try {
-                    SseSendUtil.SseSend(userId,"老人数据异常，今天用水："+records.get(records.size()-1).getWaterUsage());
+                    SseSendUtil.SseSend(userId,"老人数据异常，今天用水："+ BigDecimalUtils.roundToOneDecimal(records.get(records.size()-1).getWaterUsage()));
                 }catch (Exception e){
                     log.error("消息发送失败，用户ID: " + userId, e);
                 }
