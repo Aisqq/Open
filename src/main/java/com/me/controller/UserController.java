@@ -103,7 +103,14 @@ public class UserController {
         date = date.toLocalDate().atStartOfDay();
         return userService.getTurnOverCount(date);
     }
-
+    @GetMapping("/getFall")
+    public Result<Integer> getFall( @RequestParam(value = "date", required = false)LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        date = date.toLocalDate().atStartOfDay();
+        return userService.getFall(date);
+    }
     @GetMapping("/getSmog")
     public Result<BigDecimal> getSmog( @RequestParam(value = "date", required = false)  LocalDateTime date) {
         if (date == null) {

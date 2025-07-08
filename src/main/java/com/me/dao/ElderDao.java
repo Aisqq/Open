@@ -119,4 +119,8 @@ public interface ElderDao {
             @Param("elderId") Integer elderId,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
+
+    Long countByCondition(String query);
+
+    List findByCondition2(Integer offset, Integer limit,String query);
 }

@@ -55,4 +55,14 @@
             (#{elderId}, #{alarmType},
              #{reason}, NOW(), '未处理')
     </insert>
+    <select id="findFallCount" parameterType="map" resultType="Integer">
+        SELECT
+            COUNT(1) AS count
+        FROM
+            tb_alarm_log
+        WHERE
+            elder_id = #{elderId}
+          AND alarm_time &gt;= #{date}
+          AND alarm_time &lt; #{date} + INTERVAL '1 day'
+    </select>
 </mapper>

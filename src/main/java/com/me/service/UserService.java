@@ -35,4 +35,6 @@ public interface UserService {
     Result<UserVo> getUser();
 
     Result<String> edit(User user,HttpServletResponse response);
+
+    Result<Integer> getFall(LocalDateTime date);
 }

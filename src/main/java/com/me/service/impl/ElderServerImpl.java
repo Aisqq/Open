@@ -7,6 +7,7 @@ import com.me.dao.ElderDao;
 import com.me.dto.ElderDTO;
 import com.me.dto.QueryPage;
 import com.me.entity.Elder;
+import com.me.service.CacheService;
 import com.me.service.ElderServer;
 import com.me.utils.Message;
 import com.me.utils.PageResult;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ElderServerImpl implements ElderServer {
+    private final CacheService cacheService;
     private final ElderDao elderDao;
     @Override
     public Result<String> addElder(ElderDTO elderDTO) {
@@ -36,13 +38,30 @@ public class ElderServerImpl implements ElderServer {
         return Result.success(Message.SUCCESS);
     }
 
+    /**
+     *  offset = (start-1)*size
+     *  limit = size
+     * @param queryPage
+     *     start;第几页
+     *     size;每页多少
+     *     query;条件
+     * @return
+     */
     @Override
     public PageResult findAllElder(QueryPage queryPage) {
-
-        PageHelper.startPage(queryPage.getStart(), queryPage.getSize());
-        Page<ElderVo> page = elderDao.findByCondition(queryPage.getQuery());
-        return new PageResult(page.getTotal(), page.getResult());
+        if(queryPage.getStart()<10000){
+            PageHelper.startPage(queryPage.getStart(), queryPage.getSize());
+            Page<ElderVo> page = elderDao.findByCondition(queryPage.getQuery());
+            return new PageResult(page.getTotal(), page.getResult());
+        }
+        Integer offset = (queryPage.getStart()-1) * queryPage.getSize();
+        Integer limit = queryPage.getSize();
+        String query = queryPage.getQuery();
+        Long resultCount = cacheService.elderCount(query);
+        return new PageResult(resultCount,elderDao.findByCondition2(offset,limit,query));
     }
+
+
 
     @Override
     public Result<String> update(Elder elder) {

@@ -1,5 +1,6 @@
 package com.me.service.impl;
 
+import com.me.dao.AlarmLogDao;
 import com.me.dao.ElderDao;
 import com.me.dao.UserDao;
 import com.me.vo.ElderVo;
@@ -28,6 +29,7 @@ import java.util.Objects;
 @Service
 @Transactional
 public class UserServiceImpl  implements UserService {
+    private final AlarmLogDao alarmLogDao;
     private final ElderDao elderDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final StringRedisTemplate stringRedisTemplate;
@@ -172,5 +174,13 @@ public class UserServiceImpl  implements UserService {
         Cookie newCookie = CookieUtil.createJwtCookie(jwtString);
         response.addCookie(newCookie);
         return Result.success(Message.SUCCESS);
+    }
+
+    @Override
+    public Result<Integer> getFall(LocalDateTime date) {
+        User user = UserHolder.getUser();
+        Integer elderId = user.getElderId();
+        Integer fallCount = alarmLogDao.findFallCount(elderId,date);
+        return Result.success(Message.SUCCESS, fallCount);
     }
 }

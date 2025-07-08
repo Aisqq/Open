@@ -103,6 +103,11 @@
         <td><input type="text" id="waterInput"></td>
         <td><button onclick="sendData('water', '109', 'waterInput')">上传数据</button></td>
     </tr>
+    <tr>
+        <td>摔倒传感器</td>
+        <td></td>
+        <td><button onclick="sendData('fall', '110')">上传数据</button></td>
+    </tr>
     </tbody>
 </table>
 
@@ -141,7 +146,12 @@
                 return;
             }
         } else {
-            extraValue = null;
+            // 对于摔倒传感器，固定值为1
+            if (deviceType === 'fall') {
+                extraValue = 1;
+            } else {
+                extraValue = null;
+            }
         }
 
         let key;
@@ -157,6 +167,9 @@
                 break;
             case 'water':
                 key = 'water';
+                break;
+            case 'fall':
+                key = 'fall';
                 break;
             default:
                 key = null;

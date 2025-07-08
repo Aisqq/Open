@@ -16,4 +16,6 @@ public interface AlarmLogDao {
     Page<AlarmLog> getAlarmLogsByTimeRange(@Param("elderId")Integer elderId, @Param("startTime")LocalDateTime startTime, @Param("endTime")LocalDateTime endTime,@Param("type")String type);
 
     void add(AlarmLog alarmLog);
+
+    Integer findFallCount(Integer elderId, LocalDateTime date);
 }

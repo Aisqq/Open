@@ -1,6 +1,11 @@
 server:
   port: 8080
 spring:
+  cache:
+    type: redis
+    redis:
+      time-to-live: 30m
+      cache-null-values: true
   ai:
     dashscope:
       api-key: ${LLM_KEY}
