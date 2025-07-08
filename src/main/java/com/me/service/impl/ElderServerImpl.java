@@ -61,8 +61,6 @@ public class ElderServerImpl implements ElderServer {
         return new PageResult(resultCount,elderDao.findByCondition2(offset,limit,query));
     }
 
-
-
     @Override
     public Result<String> update(Elder elder) {
         if(elderDao.update(elder)>0){

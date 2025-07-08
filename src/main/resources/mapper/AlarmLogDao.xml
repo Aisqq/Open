@@ -62,6 +62,7 @@
             tb_alarm_log
         WHERE
             elder_id = #{elderId}
+          AND alarm_type = '摔倒检测'
           AND alarm_time &gt;= #{date}
           AND alarm_time &lt; #{date} + INTERVAL '1 day'
     </select>
