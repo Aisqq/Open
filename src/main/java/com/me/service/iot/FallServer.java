@@ -21,7 +21,6 @@ import java.util.Map;
 @Slf4j
 public class FallServer implements IotDeviceServer {
     private final String reason = "老人摔倒了";
-    private final StringRedisTemplate redisTemplate;
     private final UserDao userDao;
     private final DeviceDao deviceDao;
     private final AlarmLogDao alarmLogDao;
@@ -36,6 +35,8 @@ public class FallServer implements IotDeviceServer {
         String deviceId = "100";
         log.info(map.toString());
         if(map.get("fall")!=null){
+           int flag =  (Integer)map.get("fall") ;
+           if(flag==0)return;
            Integer elderId = deviceDao.findById(deviceId).getElderId();
            List<Integer> userIds = userDao.findUserIdByElderId(elderId);
            for(Integer userId:userIds){

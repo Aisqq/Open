@@ -11,7 +11,7 @@ spring:
       api-key: ${LLM_KEY}
       chat:
         options:
-          model: deepseek-r1
+          model: qwen-plus
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://10.168.89.239:5432/postgres?useSSL=false&serverTimezone=Asia/Shanghai

@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 public class ThreadPoolConfig implements WebMvcConfigurer {
     private ThreadPoolExecutor executor;
-    @Bean
+    @Bean("taskExecutor")
     public AsyncTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(12);

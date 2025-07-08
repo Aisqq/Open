@@ -49,6 +49,10 @@ public class TestController {
                 .stream()
                 .content();
     }
+    @PostMapping("/hello")
+    public String hello(@RequestBody String me){
+        return me;
+    }
 }
 
 

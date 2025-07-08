@@ -17,15 +17,15 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.context.WebApplicationContext;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 @Configuration
 public class ChatClientConfig {
 
     private final ToolsService toolsService;
 
-    private static final ConcurrentMap<String, ChatMemory> userMemories = new ConcurrentHashMap<>();
+    private static final Map<String, ChatMemory> userMemories = new ConcurrentHashMap<>();
 
     public ChatClientConfig(ToolsService toolsService) {
         this.toolsService = toolsService;
@@ -42,7 +42,7 @@ public class ChatClientConfig {
         String userId = String.valueOf(user.getUserId());
 
         ChatMemory userMemory = userMemories.computeIfAbsent(userId, key -> {
-            InMemoryChatMemory memory = new InMemoryChatMemory();
+            ChatMemory memory = new InMemoryChatMemory();
             return new ChatMemory() {
                 public void addMessage(Message message) {
                     if (message instanceof UserMessage) {
