@@ -48,7 +48,7 @@ public class SmogAnalyze implements AnalyzeService {
             AlarmLog alarmLog = new AlarmLog();
             alarmLog.setElderId(device.getElderId());
             alarmLog.setAlarmType(smogName);
-            alarmLog.setReason(Message.SMOG_REASON);
+            alarmLog.setReason("烟雾浓度数据异常，烟雾浓度："+ BigDecimalUtils.roundToOneDecimal(records.get(records.size()-1).getAverageSmogLevel()));
             alarmLogDao.add(alarmLog);
             List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
             for(Integer userId:userIdList){

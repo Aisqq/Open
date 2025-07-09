@@ -47,7 +47,7 @@ public class WaterAnalyze implements AnalyzeService {
             AlarmLog alarmLog = new AlarmLog();
             alarmLog.setElderId(device.getElderId());
             alarmLog.setAlarmType(waterName);
-            alarmLog.setReason(Message.WATER_REASON);
+            alarmLog.setReason("老人数据异常，今天用水："+ BigDecimalUtils.roundToOneDecimal(records.get(records.size()-1).getWaterUsage()));
             alarmLogDao.add(alarmLog);
             List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
             for(Integer userId:userIdList){

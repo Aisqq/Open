@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public interface UserService {
+
     Result<String> login(User userLogin, HttpServletResponse response);
 
     Result<String> register(RegisterDTO dto);

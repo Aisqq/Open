@@ -10,9 +10,7 @@ import com.me.utils.SseSendUtil;
 import com.me.utils.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
 

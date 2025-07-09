@@ -46,7 +46,7 @@ public class TempAnalyze implements AnalyzeService {
             AlarmLog alarmLog = new AlarmLog();
             alarmLog.setElderId(device.getElderId());
             alarmLog.setAlarmType(tempName);
-            alarmLog.setReason(Message.TEMP_REASON);
+            alarmLog.setReason("老人数据异常，体温："+ BigDecimalUtils.roundToOneDecimal(records.get(records.size()-1).getTemperature()));
             alarmLogDao.add(alarmLog);
             List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
             for(Integer userId:userIdList){

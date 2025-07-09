@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
-
 @Slf4j
 public class ThreadPoolConfig implements WebMvcConfigurer {
     private ThreadPoolExecutor executor;
@@ -36,13 +35,13 @@ public class ThreadPoolConfig implements WebMvcConfigurer {
 
     public synchronized void setCorePoolSize(int corePoolSize) {
         executor.setCorePoolSize(corePoolSize);
-        log.info("core:"+String.valueOf(executor.getCorePoolSize()));
+        log.info("core:"+executor.getCorePoolSize());
     }
 
 
     public synchronized void setMaxPoolSize(int maxPoolSize) {
         executor.setMaximumPoolSize(maxPoolSize);
-        log.info("max:"+String.valueOf(executor.getMaximumPoolSize()));
+        log.info("max:"+executor.getMaximumPoolSize());
     }
 
 }

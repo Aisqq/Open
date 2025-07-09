@@ -46,7 +46,7 @@ public class OutAnalyze implements AnalyzeService {
             AlarmLog alarmLog = new AlarmLog();
             alarmLog.setElderId(device.getElderId());
             alarmLog.setAlarmType(outName);
-            alarmLog.setReason(Message.OUT_REASON);
+            alarmLog.setReason("老人数据异常，外出次数："+records.get(records.size()-1).getOutTimes());
             alarmLogDao.add(alarmLog);
             List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
             for(Integer userId:userIdList){

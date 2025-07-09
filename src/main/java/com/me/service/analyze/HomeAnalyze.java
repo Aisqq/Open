@@ -48,7 +48,7 @@ public class HomeAnalyze implements AnalyzeService {
             AlarmLog alarmLog = new AlarmLog();
             alarmLog.setElderId(device.getElderId());
             alarmLog.setAlarmType(homeName);
-            alarmLog.setReason(Message.HOME_REASON);
+            alarmLog.setReason("老人数据异常，回家次数：" + records.get(records.size()-1).getHomeTimes());
             alarmLogDao.add(alarmLog);
             List<Integer> userIdList = userDao.findUserIdByElderId(device.getElderId());
             for(Integer userId:userIdList){
