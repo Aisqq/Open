@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/chart/")
+@RequestMapping("/api/chart")
 public class ChartController{
     private final ChartService chartService;
     /**

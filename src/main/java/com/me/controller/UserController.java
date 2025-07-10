@@ -149,6 +149,8 @@ public class UserController {
     }
     @PutMapping("/editUser")
     public Result<String> editUser(@Valid @RequestBody User user,HttpServletResponse response){
+        user.setPassword(null);
+        user.setRole(null);
         return userService.edit(user,response);
     }
 }
