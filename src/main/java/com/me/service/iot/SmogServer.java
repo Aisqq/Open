@@ -37,7 +37,12 @@ public class SmogServer implements IotDeviceServer {
         map.put("deviceId","222");
         log.info(map.toString());
         Smog smog = new Smog();
-        smog.setSmogLever(new BigDecimal((String) map.get("smog")));
+        Object smogValue = map.get("smog");
+        if (smogValue instanceof String) {
+            smog.setSmogLever(new BigDecimal((String) smogValue));
+        } else {
+            smog.setSmogLever((BigDecimal) smogValue);
+        }
         smog.setRecordTime(TimeUtil.stringToLocalDateTime((String) map.get("recordTime")));
         smog.setDeviceId((String) map.get("deviceId"));
         //smog.setAlarm((Integer) map.get("alarm"));

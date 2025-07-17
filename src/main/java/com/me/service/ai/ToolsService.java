@@ -1,5 +1,6 @@
 package com.me.service.ai;
 
+import com.me.dao.AlarmLogDao;
 import com.me.dao.ElderDao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,9 +20,10 @@ import java.util.Optional;
 @Service
 public class ToolsService {
     private final ElderDao elderDao;
+    private final AlarmLogDao alarmLogDao;
     @Tool(description = "获取当前时间或日期")
     public String getDate() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return "当前时间：" + now.format(formatter) + "。";
     }
@@ -50,12 +53,14 @@ public class ToolsService {
                 .orElse(0);
         Integer outTimes = Optional.ofNullable(elderDao.countOutTimes(elderId, date))
                 .orElse(0);
+        Integer fallCount = Optional.ofNullable(alarmLogDao.findFallCount(elderId, date))
+                .orElse(0);
         resultMap.put("waterUsage", waterUsage);
         resultMap.put("temperature", temperature);
         resultMap.put("smogLevel", smogLevel);
         resultMap.put("homeTimes", homeTimes);
         resultMap.put("outTimes", outTimes);
-
+        resultMap.put("fallCount",fallCount);
         return resultMap.toString();
     }
 }

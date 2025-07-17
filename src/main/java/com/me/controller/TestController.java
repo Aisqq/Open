@@ -8,6 +8,7 @@ import com.me.utils.Message;
 import com.me.utils.Result;
 import com.me.utils.UserHolder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 @Transactional
 @RequestMapping("/api/test")
 public class TestController {
@@ -33,6 +35,7 @@ public class TestController {
         User user = userDao.findUserByUsername("user");
         UserHolder.saveUser(user);
         String deviceType = (String) map.get("type");
+        log.info(map.toString());
         for(IotDeviceServer iotDeviceServer:iotDeviceServers){
             if(iotDeviceServer.findDeviceType(deviceType)){
                 iotDeviceServer.addData(map);

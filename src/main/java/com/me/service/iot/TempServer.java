@@ -33,17 +33,16 @@ public class TempServer implements IotDeviceServer {
     @Override
     public void addData(Map<String, Object> map) {
         map.put("deviceId","105");
-        log.info(map.toString());
         Temp temp = new Temp();
         Object tempValue = map.get("temperature");
+        if(tempValue==null){
+            tempValue = map.get("temp");
+        }
         BigDecimal temperature;
-        if (tempValue instanceof Number) {
-            temperature = new BigDecimal(tempValue.toString());
-        } else if (tempValue instanceof String) {
-            temperature
-                    = new BigDecimal((String) tempValue);
+        if (tempValue instanceof String) {
+            temperature = new BigDecimal((String) tempValue);
         } else {
-            temperature = BigDecimal.ZERO;
+            temperature = (BigDecimal) tempValue;
         }
 
         temp.setTemperature(temperature);
@@ -53,7 +52,6 @@ public class TempServer implements IotDeviceServer {
         LocalDateTime endOfDay = temp.getRecordTime().toLocalDate().atTime(LocalTime.MAX);
         String deviceId = temp.getDeviceId();
         Temp findTemp = tempDao.getTempByDeviceIdAndDate(deviceId,startOfDay,endOfDay);
-        System.out.println(findTemp);
         if(findTemp!=null){
             temp.setTempId(findTemp.getTempId());
             tempDao.updateTempById(temp);

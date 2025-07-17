@@ -72,6 +72,7 @@ public class AmqpService {
                 if (!services.isEmpty()) {
                     Map<String, Object> service = services.get(0);
                     Map<String, Object> properties = (Map<String, Object>) service.get("properties");
+                    log.info("map数据"+properties.keySet().toString());
                     properties.put("recordTime", service.get("event_time"));
                     for (IotDeviceServer iotDeviceServer : iotDeviceServers) {
                             iotDeviceServer.addData(properties);
