@@ -44,7 +44,7 @@ public class AnalyzeTask {
      */
     @Async("taskExecutor")
     //@Scheduled(cron = "0 * * * * ?")//测试1分钟
-    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "0 */10 * * * ?")
     public void analyzeTask() {
         log.info("定时任务");
         LocalDateTime endDate = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);

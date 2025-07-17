@@ -28,8 +28,8 @@ public class SleepServer implements IotDeviceServer {
     public void addData(Map<String, Object> map) {
         log.info("sleep");
         map.put("deviceId","104");
-        log.info(map.toString());
         Sleep sleep = new Sleep();
+        if((int) Double.parseDouble(String.valueOf(map.get("sleep")))<=0)return;
         sleep.setDeviceId((String) map.get("deviceId"));
         sleep.setTurnOverCount((int) Double.parseDouble(String.valueOf(map.get("sleep"))));
         sleep.setRecordTime(TimeUtil.stringToLocalDateTime((String) map.get("recordTime")));

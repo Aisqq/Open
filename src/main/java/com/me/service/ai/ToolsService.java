@@ -55,12 +55,12 @@ public class ToolsService {
                 .orElse(0);
         Integer fallCount = Optional.ofNullable(alarmLogDao.findFallCount(elderId, date))
                 .orElse(0);
-        resultMap.put("waterUsage", waterUsage);
-        resultMap.put("temperature", temperature);
-        resultMap.put("smogLevel", smogLevel);
-        resultMap.put("homeTimes", homeTimes);
-        resultMap.put("outTimes", outTimes);
-        resultMap.put("fallCount",fallCount);
+        resultMap.put("用水量单位升", waterUsage);
+        resultMap.put("体温", temperature);
+        resultMap.put("烟雾浓度单位ppm", smogLevel);
+        resultMap.put("回家次数", homeTimes);
+        resultMap.put("外出次数", outTimes);
+        resultMap.put("摔倒次数",fallCount);
         return resultMap.toString();
     }
 }
